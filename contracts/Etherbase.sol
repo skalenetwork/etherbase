@@ -24,7 +24,13 @@ pragma solidity ^0.8.7;
 import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 
 
-contract Etherbase is AccessControlEnumerable{
+interface IEtherbase {
+    function retrieve(address payable receiver) external;
+    function partiallyRetrieve(address payable receiver, uint amount) public;
+}
+
+
+contract Etherbase is AccessControlEnumerable, IEtherbase {
 
     bytes32 public constant ETHER_MANAGER_ROLE = keccak256("ETHER_MANAGER_ROLE");
 
@@ -38,11 +44,11 @@ contract Etherbase is AccessControlEnumerable{
         _setupRole(ETHER_MANAGER_ROLE, schainOwner);
     }
 
-    function retrieve(address payable receiver) external onlyEtherManager {
+    function retrieve(address payable receiver) external override onlyEtherManager {
         partiallyRetrieve(receiver, address(this).balance);
     }
 
-    function partiallyRetrieve(address payable receiver, uint amount) public onlyEtherManager {
+    function partiallyRetrieve(address payable receiver, uint amount) public override onlyEtherManager {
         require(amount <= address(this).balance, "Insufficient funds");
         receiver.transfer(amount);
     }
