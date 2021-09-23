@@ -1,2 +1,5 @@
 codecov
+ethersproject
+nomiclabs
 solhint
+typechain

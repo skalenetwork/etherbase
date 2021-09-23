@@ -1,6 +1,7 @@
 # custom
 artifacts/
 cache/
+typechain/
 
 # Logs
 logs
