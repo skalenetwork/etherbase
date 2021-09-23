@@ -12,7 +12,8 @@
     "prepare": "yarn compile && yarn hooks",
     "lint": "npx solhint \"contracts/**/*.sol\"",
     "cspell": "npx cspell \"**/*\"",
-    "fullCheck": "yarn lint && yarn cspell",
+    "slither": "slither .",
+    "fullCheck": "yarn lint && yarn cspell && yarn slither",
     "hooks": "git config core.hooksPath .githooks || true",
     "no-hooks": "git config core.hooksPath .git/hooks"
   },

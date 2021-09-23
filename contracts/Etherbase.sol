@@ -49,6 +49,7 @@ contract Etherbase is AccessControlEnumerable, IEtherbase {
     }
 
     function partiallyRetrieve(address payable receiver, uint amount) public override onlyEtherManager {
+        require(receiver != address(0), "Receiver address is not set");
         require(amount <= address(this).balance, "Insufficient funds");
         receiver.transfer(amount);
     }
