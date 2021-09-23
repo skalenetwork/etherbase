@@ -1,0 +1,23 @@
+{
+  "name": "etherbase",
+  "version": "0.0.1",
+  "description": "Predeployed smart contract that stores and manages access to ETH received from block rewards and gas fees.",
+  "main": "index.js",
+  "repository": "git@github.com:skalenetwork/etherbase.git",
+  "author": "Dmytro Stebaiev <dmytro@skalelabs.com>",
+  "license": "AGPL-3.0",
+  "private": false,
+  "scripts": {
+    "compile": "npx hardhat clean && npx hardhat compile",
+    "prepare": "yarn compile"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.22",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.9.6",
+    "chai": "^4.3.4",
+    "hardhat": "^2.6.4",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  }
+}
