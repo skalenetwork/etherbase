@@ -10,13 +10,15 @@
   "scripts": {
     "compile": "npx hardhat clean && npx hardhat compile",
     "prepare": "yarn compile",
-    "lint": "npx solhint \"contracts/**/*.sol\""
+    "lint": "npx solhint \"contracts/**/*.sol\"",
+    "cspell": "npx cspell \"**/*\""
   },
   "devDependencies": {
     "@types/chai": "^4.2.22",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.9.6",
     "chai": "^4.3.4",
+    "cspell": "^5.10.1",
     "hardhat": "^2.6.4",
     "solhint": "^3.3.6",
     "ts-node": "^10.2.1",
