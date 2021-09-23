@@ -9,9 +9,12 @@
   "private": false,
   "scripts": {
     "compile": "npx hardhat clean && npx hardhat compile",
-    "prepare": "yarn compile",
+    "prepare": "yarn compile && yarn hooks",
     "lint": "npx solhint \"contracts/**/*.sol\"",
-    "cspell": "npx cspell \"**/*\""
+    "cspell": "npx cspell \"**/*\"",
+    "fullCheck": "yarn lint && yarn cspell",
+    "hooks": "git config core.hooksPath .githooks || true",
+    "no-hooks": "git config core.hooksPath .git/hooks"
   },
   "devDependencies": {
     "@types/chai": "^4.2.22",

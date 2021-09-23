@@ -1,7 +1,7 @@
 {
     "version": "0.2",
     "language": "en",
-    "ignorePaths": ["yarn-error.log", "dictionaries/*"],
+    "ignorePaths": ["yarn-error.log", "dictionaries/**/*", "cache/**/*", "artifacts/**/*"],
     "dictionaries": ["domain-terms", "libraries", "names", "skale-terms", "solidity"],
     "dictionaryDefinitions": [
         { "name": "skale-terms", "path": "./dictionaries/skale-terms.txt"},

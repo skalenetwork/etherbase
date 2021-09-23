@@ -26,7 +26,7 @@ import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 
 interface IEtherbase {
     function retrieve(address payable receiver) external;
-    function partiallyRetrieve(address payable receiver, uint amount) public;
+    function partiallyRetrieve(address payable receiver, uint amount) external;
 }
 
 
