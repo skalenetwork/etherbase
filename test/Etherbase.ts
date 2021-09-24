@@ -1,7 +1,7 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "hardhat";
 import { Etherbase } from "../typechain";
-import * as chai from 'chai'    
+import * as chai from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 
 chai.should();

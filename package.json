@@ -14,8 +14,9 @@
     "cspell": "npx cspell \"**/*\"",
     "slither": "slither .",
     "tsc": "npx tsc --noEmit",
+    "tslint": "npx tslint --project .",
     "test": "yarn tsc && npx hardhat test",
-    "fullCheck": "yarn lint && yarn cspell && yarn slither && yarn tsc",
+    "fullCheck": "yarn lint && yarn cspell && yarn slither && yarn tsc && yarn tslint",
     "hooks": "git config core.hooksPath .githooks || true",
     "no-hooks": "git config core.hooksPath .git/hooks"
   },
@@ -39,6 +40,8 @@
     "solhint": "^3.3.6",
     "solidity-coverage": "^0.7.17",
     "ts-node": "^10.2.1",
+    "tslint": "^6.1.3",
+    "tslint-no-unused-expression-chai": "^0.1.4",
     "typechain": "^5.1.2",
     "typescript": "^4.4.3"
   },
