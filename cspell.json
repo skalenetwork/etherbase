@@ -7,7 +7,8 @@
         "dictionaries/**/*",
         "cache/**/*",
         "artifacts/**/*",
-        "typechain/**/*"
+        "typechain/**/*",
+        "coverage/**/*"
     ],
     "dictionaries": ["domain-terms", "libraries", "names", "skale-terms", "solidity"],
     "dictionaryDefinitions": [

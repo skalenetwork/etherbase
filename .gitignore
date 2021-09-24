@@ -1,6 +1,7 @@
 # custom
 artifacts/
 cache/
+coverage.json
 typechain/
 
 # Logs
