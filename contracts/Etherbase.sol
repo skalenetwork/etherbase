@@ -25,6 +25,7 @@ import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 
 
 interface IEtherbase {
+    receive() external payable;
     function retrieve(address payable receiver) external;
     function partiallyRetrieve(address payable receiver, uint amount) external;
 }
@@ -34,6 +35,11 @@ contract Etherbase is AccessControlEnumerable, IEtherbase {
 
     bytes32 public constant ETHER_MANAGER_ROLE = keccak256("ETHER_MANAGER_ROLE");
 
+    event EtherReceived(
+        address sender,
+        uint amount
+    );
+
     modifier onlyEtherManager() {
         require(hasRole(ETHER_MANAGER_ROLE, msg.sender), "ETHER_MANAGER_ROLE is required");
         _;
@@ -42,6 +48,10 @@ contract Etherbase is AccessControlEnumerable, IEtherbase {
     constructor (address schainOwner) {
         _setupRole(DEFAULT_ADMIN_ROLE, schainOwner);
         _setupRole(ETHER_MANAGER_ROLE, schainOwner);
+    }
+
+    receive() external payable override {
+        emit EtherReceived(msg.sender, msg.value);
     }
 
     function retrieve(address payable receiver) external override onlyEtherManager {
