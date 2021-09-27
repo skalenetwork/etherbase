@@ -1,0 +1,4 @@
+/src/etherbase_predeployed/artifacts/*
+!/src/etherbase_predeployed/artifacts/.keep
+test/venv
+version

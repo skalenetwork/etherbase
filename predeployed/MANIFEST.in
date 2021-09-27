@@ -1,0 +1,2 @@
+graft src/etherbase_predeployed/artifacts
+include version.txt

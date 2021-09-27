@@ -1,5 +1,8 @@
 codecov
 ethersproject
 nomiclabs
+pypi
+setuptools
 solhint
 typechain
+venv
