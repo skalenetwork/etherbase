@@ -1,8 +1,8 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "hardhat";
-import { Etherbase } from "../typechain";
+import { Etherbase, EtherController } from "../typechain";
 import * as chai from "chai"
-import chaiAsPromised from "chai-as-promised"
+import chaiAsPromised from "chai-as-promised";
 
 chai.should();
 chai.use(chaiAsPromised)
@@ -51,5 +51,19 @@ describe("Etherbase", () => {
         it("should not allow anyone to retrieve ETH", async () => {
             await etherbase.connect(hacker).retrieve(hacker.address).should.eventually.rejectedWith("ETHER_MANAGER_ROLE is required");
         })
+
+        it("should allow smart contract to retrieve ETH", async () => {
+            const etherController = await (await ethers.getContractFactory("EtherController")).deploy(etherbase.address) as EtherController;
+            await etherbase.grantRole(await etherbase.ETHER_MANAGER_ROLE(), etherController.address);
+
+            const etherbaseBalanceBefore = await ethers.provider.getBalance(etherbase.address);
+            const userBalanceBefore = await ethers.provider.getBalance(hacker.address);
+
+            await etherController.provideEth(hacker.address);
+            await ethers.provider.getBalance(etherbase.address).should.eventually.equal(0);
+            await ethers.provider.getBalance(hacker.address).should.eventually.equal(userBalanceBefore.add(etherbaseBalanceBefore));
+
+            await hacker.sendTransaction({to: etherbase.address, value: etherbaseBalanceBefore});
+        });
     });
 });
