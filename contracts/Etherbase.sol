@@ -40,6 +40,11 @@ contract Etherbase is AccessControlEnumerable, IEtherbase {
         uint amount
     );
 
+    event EtherSent(
+        address receiver,
+        uint amount
+    );
+
     modifier onlyEtherManager() {
         require(hasRole(ETHER_MANAGER_ROLE, msg.sender), "ETHER_MANAGER_ROLE is required");
         _;
@@ -61,6 +66,9 @@ contract Etherbase is AccessControlEnumerable, IEtherbase {
     function partiallyRetrieve(address payable receiver, uint amount) public override onlyEtherManager {
         require(receiver != address(0), "Receiver address is not set");
         require(amount <= address(this).balance, "Insufficient funds");
+
+        emit EtherSent(receiver, amount);
+
         receiver.transfer(amount);
     }
 }
