@@ -1,3 +1,4 @@
+alloc
 etherbase
 keccak256
 predeployed

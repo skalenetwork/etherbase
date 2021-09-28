@@ -4,12 +4,15 @@
     "ignorePaths": [
         "yarn-error.log",
         ".gitignore",
+        "cspell.json",
         "dictionaries/**/*",
         "cache/**/*",
         "artifacts/**/*",
         "typechain/**/*",
         "coverage/**/*",
-        "**/venv/**/*"
+        "**/venv/**/*",
+        "**/requirements.txt",
+        "**/__pycache__/**"
     ],
     "dictionaries": ["domain-terms", "libraries", "names", "skale-terms", "solidity"],
     "dictionaryDefinitions": [

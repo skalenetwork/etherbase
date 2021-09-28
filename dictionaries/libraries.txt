@@ -1,6 +1,7 @@
 codecov
 ethersproject
 nomiclabs
+popen
 pypi
 setuptools
 solhint

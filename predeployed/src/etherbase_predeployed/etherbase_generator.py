@@ -1,4 +1,4 @@
-from os.path import join
+from os.path import dirname, join
 from typing import Dict
 from web3.auto import w3
 
@@ -27,7 +27,7 @@ class EtherbaseGenerator(AccessControlEnumerableGenerator):
     ROLE_MEMBERS_SLOT = AccessControlEnumerableGenerator.next_slot(ROLES_SLOT)
 
     def __init__(self):
-        generator = EtherbaseGenerator.from_hardhat_artifact(join(__file__, 'artifacts', self.ARTIFACT_FILENAME))        
+        generator = EtherbaseGenerator.from_hardhat_artifact(join(dirname(__file__), 'artifacts', self.ARTIFACT_FILENAME))        
         super().__init__(bytecode=generator.bytecode)
 
     @classmethod
