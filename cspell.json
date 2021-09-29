@@ -12,7 +12,9 @@
         "coverage/**/*",
         "**/venv/**/*",
         "**/requirements.txt",
-        "**/__pycache__/**"
+        "**/__pycache__/**",
+        "**/*.egg-info/**",
+        "**/dist/**"
     ],
     "dictionaries": ["domain-terms", "libraries", "names", "skale-terms", "solidity"],
     "dictionaryDefinitions": [
