@@ -1,8 +1,12 @@
 codecov
 ethersproject
+mypy
 nomiclabs
 popen
+pylint
 pypi
+pytest
+pythonpath
 setuptools
 solhint
 typechain

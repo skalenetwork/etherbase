@@ -1,4 +1,5 @@
 # custom
+.vscode/
 artifacts/
 cache/
 coverage.json
