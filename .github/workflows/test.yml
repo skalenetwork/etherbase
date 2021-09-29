@@ -63,7 +63,7 @@ jobs:
     - name: Install python building tools
       run: pip3 install -r predeployed/scripts/requirements.txt
 
-    - name: Install testing staff
+    - name: Install python testing staff
       run: pip3 install -r predeployed/test/requirements.txt
 
     - name: Install geth
