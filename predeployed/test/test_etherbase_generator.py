@@ -27,4 +27,15 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert etherbase.functions.getRoleMemberCount(EtherbaseGenerator.DEFAULT_ADMIN_ROLE).call() == 1
             assert etherbase.functions.getRoleMember(EtherbaseGenerator.DEFAULT_ADMIN_ROLE, 0).call() == self.OWNER_ADDRESS            
             assert etherbase.functions.hasRole(EtherbaseGenerator.DEFAULT_ADMIN_ROLE, self.OWNER_ADDRESS).call()
+
+    def test_ether_manager_role(self, tmpdir):
+        genesis = self.prepare_genesis()
+
+        with self.run_geth(tmpdir, genesis):
+            assert w3.isConnected()
+
+            etherbase = w3.eth.contract(address=ETHERBASE_ADDRESS, abi=self.get_etherbase_abi())
+            assert etherbase.functions.getRoleMemberCount(EtherbaseGenerator.ETHER_MANAGER_ROLE).call() == 1
+            assert etherbase.functions.getRoleMember(EtherbaseGenerator.ETHER_MANAGER_ROLE, 0).call() == self.OWNER_ADDRESS            
+            assert etherbase.functions.hasRole(EtherbaseGenerator.ETHER_MANAGER_ROLE, self.OWNER_ADDRESS).call()
     
