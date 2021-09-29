@@ -54,10 +54,10 @@ jobs:
     - name: Show slither version
       run: slither --version
 
-    - name: lint
+    - name: Lint
       run: yarn fullCheck
 
-    - name: Generate coverage report
+    - name: Run tests
       run: ./scripts/measure_coverage.sh
 
     - name: Install python building tools
@@ -85,8 +85,7 @@ jobs:
     - name: Run predeployed tests
       env:
         PYTHONPATH: predeployed/src
-      run: |
-        pytest --cov=predeployed_generator
+      run: pytest --cov=predeployed_generator
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
