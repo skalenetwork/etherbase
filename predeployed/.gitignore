@@ -1,6 +1,6 @@
 __pycache__
-/src/etherbase_predeployed/artifacts/*
-!/src/etherbase_predeployed/artifacts/.keep
+src/etherbase_predeployed/artifacts/*
+!src/etherbase_predeployed/artifacts/.keep
 test/venv
 version.txt
 *.egg-info/
