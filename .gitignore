@@ -1,4 +1,5 @@
 # custom
+.coverage
 .vscode/
 /artifacts/
 cache/

@@ -82,10 +82,10 @@ jobs:
         VERSION: "0.0.0"
       run: predeployed/scripts/build_package.sh
 
-    - name: Run predeployed tests
+    - name: Run tests of predeployed part
       env:
         PYTHONPATH: predeployed/src
-      run: pytest --cov=predeployed_generator
+      run: pytest --cov=etherbase_predeployed
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
