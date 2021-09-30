@@ -85,7 +85,9 @@ jobs:
     - name: Run tests of predeployed part
       env:
         PYTHONPATH: predeployed/src
-      run: pytest --cov=etherbase_predeployed
+      run: |
+        pytest --cov=etherbase_predeployed
+        coverage xml -i
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
