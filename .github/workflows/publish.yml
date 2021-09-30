@@ -50,7 +50,7 @@ jobs:
     - name: Install building tools
       run: pip3 install -r ./predeployed/scripts/requirements.txt
 
-      - name: Install project
+    - name: Install project
       run: yarn install
 
     - name: Determine version
