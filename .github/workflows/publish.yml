@@ -1,17 +1,19 @@
 name: Publish
 
-on:
-  pull_request:
-    types: [closed]
-    branches:
-      - develop
-      - beta
-      - stable
+# on:
+#   pull_request:
+#     types: [closed]
+#     branches:
+#       - develop
+#       - beta
+#       - stable
+
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged
+    # if: github.event.pull_request.merged    
     
     steps:
     - uses: actions/checkout@v2
@@ -46,7 +48,7 @@ jobs:
         python-version: 3.9.x
 
     - name: Install building tools
-      run: pip3 install -r predeployed/scripts/requirements.txt
+      run: pip3 install -r ./predeployed/scripts/requirements.txt
 
       - name: Install project
       run: yarn install
@@ -55,7 +57,7 @@ jobs:
       run: |
         export BRANCH=${GITHUB_REF##*/}
         echo "Branch $BRANCH"
-        export VERSION=$(bash ./scripts/calculate_version.sh)
+        export VERSION=$(bash ./predeployed/scripts/calculate_version.sh)
         echo "VERSION=$VERSION" >> $GITHUB_ENV
         echo "Version $VERSION"
         ( test $BRANCH = "stable" && export PRERELEASE=false ) || export PRERELEASE=true
