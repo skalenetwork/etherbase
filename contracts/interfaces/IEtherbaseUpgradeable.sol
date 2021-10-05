@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /**
- *   EtherController.sol - Etherbase
+ *   IEtherbaseUpgradeable.sol - Etherbase
  *   Copyright (C) 2021-Present SKALE Labs
  *   @author Dmytro Stebaiev
  *
@@ -21,22 +21,9 @@
 
 pragma solidity ^0.8.9;
 
-import "../Etherbase.sol";
+import "./IEtherbase.sol";
 
 
-interface IEtherController {
-    function provideEth(address payable target) external;
-}
-
-contract EtherController is IEtherController {
-
-    Etherbase public etherbase;
-
-    constructor (Etherbase _etherbase) {
-        etherbase = _etherbase;
-    }
-
-    function provideEth(address payable target) external override {
-        etherbase.retrieve(target);
-    }
+interface IEtherbaseUpgradeable is IEtherbase {
+    function initialize(address schainOwner) external;
 }
