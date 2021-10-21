@@ -1,19 +1,16 @@
-from os.path import dirname, join
+'''Module for generaration of Etherbase predeployed smart contract'''
 from typing import Dict
-from web3.auto import w3
 
 from predeployed_generator.upgradeable_contract_generator import UpgradeableContractGenerator
-from predeployed_generator.openzeppelin.access_control_enumerable_generator \
-    import AccessControlEnumerableGenerator
+
+from etherbase_predeployed.etherbase_generator import EtherbaseGenerator
 
 
-class EtherbaseUpgradeableGenerator(AccessControlEnumerableGenerator):
-    '''Generates EtherbaseUpgradeable
+class EtherbaseUpgradeableGenerator(EtherbaseGenerator):
+    '''Generates non upgradeable instance of EtherbaseUpgradeable
     '''
 
     ARTIFACT_FILENAME = 'EtherbaseUpgradeable.json'
-    DEFAULT_ADMIN_ROLE = (0).to_bytes(32, 'big')
-    ETHER_MANAGER_ROLE = w3.solidityKeccak(['string'], ['ETHER_MANAGER_ROLE'])
 
     # --------------- storage ---------------
     # ------------ Initializable ------------
@@ -43,24 +40,28 @@ class EtherbaseUpgradeableGenerator(AccessControlEnumerableGenerator):
     ROLES_SLOT = 101
     ROLE_MEMBERS_SLOT = 151
 
-    def __init__(self):
-        generator = EtherbaseUpgradeableGenerator.from_hardhat_artifact(join(
-            dirname(__file__),
-            'artifacts',
-            self.ARTIFACT_FILENAME))
-        super().__init__(bytecode=generator.bytecode)
-
     @classmethod
     def generate_storage(cls, **kwargs) -> Dict[str, str]:
-        schain_owner = kwargs['schain_owner']
-        storage: Dict[str, str] = {}
+        '''Generate smart contract storage.
+
+        Arguments:
+            - schain_owner
+
+        Returns an object in format:
+        {
+            "0x00": "0x5",
+            "0x01": "0x13"
+        }
+        '''
+
+        storage = super().generate_storage(**kwargs)
         cls._write_uint256(storage, cls.INITIALIZED_SLOT, 1)
-        roles_slots = cls.RolesSlots(roles=cls.ROLES_SLOT, role_members=cls.ROLE_MEMBERS_SLOT)
-        cls._setup_role(storage, roles_slots, cls.DEFAULT_ADMIN_ROLE, [schain_owner])
-        cls._setup_role(storage, roles_slots, cls.ETHER_MANAGER_ROLE, [schain_owner])
         return storage
 
 
 class UpgradeableEtherbaseUpgradeableGenerator(UpgradeableContractGenerator):
+    '''Generates upgradeable instance of EtherbaseUpgradeable
+    '''
+
     def __init__(self):
         super().__init__(implementation_generator=EtherbaseUpgradeableGenerator())

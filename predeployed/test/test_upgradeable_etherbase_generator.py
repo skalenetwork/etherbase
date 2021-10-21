@@ -1,7 +1,7 @@
 from web3.auto import w3
 from predeployed_generator.openzeppelin.proxy_admin_generator import ProxyAdminGenerator
 
-from etherbase_predeployed import UpgradeableEtherbaseUpgradeableGenerator, ETHERBASE_ADDRESS, ETHERBASE_IMPLEMENTATION_ADDRESS
+from etherbase_predeployed import UpgradeableEtherbaseUpgradeableGenerator, ETHERBASE_ADDRESS
 from etherbase_predeployed.etherbase_upgradeable_generator import EtherbaseUpgradeableGenerator
 from .tools.test_solidity_project import TestSolidityProject
 
@@ -21,8 +21,7 @@ class TestUpgradeableEtherbaseGenerator(TestSolidityProject):
             **upgradeable_etherbase_generator.generate_allocation(
                 ETHERBASE_ADDRESS,
                 proxy_admin_address=self.PROXY_ADMIN_ADDRESS,
-                schain_owner=self.OWNER_ADDRESS,
-                implementation_address=ETHERBASE_IMPLEMENTATION_ADDRESS),
+                schain_owner=self.OWNER_ADDRESS),
             **proxy_admin_generator.generate_allocation(
                 self.PROXY_ADMIN_ADDRESS,
                 owner_address=self.OWNER_ADDRESS)
