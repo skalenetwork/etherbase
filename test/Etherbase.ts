@@ -1,13 +1,24 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "hardhat";
-import { Etherbase, EtherController } from "../typechain";
+import { Etherbase, EtherbaseUpgradeable, EtherController } from "../typechain";
 import * as chai from "chai"
 import chaiAsPromised from "chai-as-promised";
 
 chai.should();
 chai.use(chaiAsPromised)
 
-describe("Etherbase", () => {
+
+async function deployEscrow(schainOwner: string) {
+    return await (await ethers.getContractFactory('Etherbase')).deploy(schainOwner) as Etherbase;
+}
+
+async function deployEscrowUpgradeable(schainOwner: string) {
+    const etherbase = await (await ethers.getContractFactory('EtherbaseUpgradeable')).deploy() as EtherbaseUpgradeable;
+    await etherbase.initialize(schainOwner);
+    return etherbase as Etherbase;
+}
+
+function testEscrow(deploy: (schainOwner: string) => Promise<Etherbase>) {
     let schainOwner: SignerWithAddress;
     let hacker: SignerWithAddress;
     let etherbase: Etherbase;
@@ -15,6 +26,7 @@ describe("Etherbase", () => {
 
     beforeEach(async() => {
         [ schainOwner, hacker ] = await ethers.getSigners();
+        etherbase = await deploy(schainOwner.address);
         etherbase = await (await ethers.getContractFactory('Etherbase')).deploy(schainOwner.address) as Etherbase;
     })
 
@@ -66,4 +78,12 @@ describe("Etherbase", () => {
             await hacker.sendTransaction({to: etherbase.address, value: etherbaseBalanceBefore});
         });
     });
+}
+
+describe("Etherbase", () => {
+    testEscrow(deployEscrow);
+});
+
+describe("EtherbaseUpgradeable", () => {
+    testEscrow(deployEscrowUpgradeable);
 });
