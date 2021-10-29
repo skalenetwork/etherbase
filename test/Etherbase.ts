@@ -36,7 +36,9 @@ function testEscrow(deploy: (schainOwner: string) => Promise<Etherbase>) {
     });
 
     it("should be able to receive ETH", async () => {
-        await schainOwner.sendTransaction({value: amount, to: etherbase.address});
+        await schainOwner.sendTransaction({value: amount, to: etherbase.address})
+            .should.emit(etherbase, "EtherReceived")
+            .withArgs(schainOwner.address, amount);
         await ethers.provider.getBalance(etherbase.address).should.eventually.equal(amount);
     });
 
@@ -52,7 +54,9 @@ function testEscrow(deploy: (schainOwner: string) => Promise<Etherbase>) {
         it("should be able to give ETH", async () => {
             const half = amount.div(2);
             const balanceBefore = await ethers.provider.getBalance(hacker.address);
-            await etherbase.partiallyRetrieve(hacker.address, half);
+            await etherbase.partiallyRetrieve(hacker.address, half)
+                .should.emit(etherbase, "EtherSent")
+                .withArgs(hacker.address, half);
             await ethers.provider.getBalance(etherbase.address).should.eventually.equal(amount.sub(half));
             await ethers.provider.getBalance(hacker.address).should.eventually.equal(half.add(balanceBefore));
 
@@ -71,10 +75,13 @@ function testEscrow(deploy: (schainOwner: string) => Promise<Etherbase>) {
             const etherbaseBalanceBefore = await ethers.provider.getBalance(etherbase.address);
             const userBalanceBefore = await ethers.provider.getBalance(hacker.address);
 
-            await etherController.provideEth(hacker.address);
+            await etherController.provideEth(hacker.address)
+                .should.emit(etherbase, "EtherSent")
+                .withArgs(hacker.address, etherbaseBalanceBefore);
             await ethers.provider.getBalance(etherbase.address).should.eventually.equal(0);
             await ethers.provider.getBalance(hacker.address).should.eventually.equal(userBalanceBefore.add(etherbaseBalanceBefore));
 
+            // return ETH
             await hacker.sendTransaction({to: etherbase.address, value: etherbaseBalanceBefore});
         });
     });
