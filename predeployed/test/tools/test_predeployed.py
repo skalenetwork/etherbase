@@ -39,10 +39,17 @@ class TestPredeployed:
         self.geth = subprocess.Popen(['geth', '--datadir', tmpdir, '--dev', '--http'], stderr=subprocess.PIPE, universal_newlines=True)
 
         while True:
-            assert self.geth.poll() is None
-            output_line = self.geth.stderr.readline()
-            if 'HTTP server started' in output_line:
-                break
+            if self.geth.poll() is None:
+                output_line = self.geth.stderr.readline()
+                if 'HTTP server started' in output_line:
+                    break
+            else:
+                output, err_output = self.geth.communicate()
+                print('Output:')
+                print(output)
+                print('Error output:')
+                print(err_output)
+                raise ChildProcessError("Geth was unexpectedly closed")
 
         return GethInstance(self.geth)
 
