@@ -1,9 +1,10 @@
 import { HardhatUserConfig } from "hardhat/config";
-import '@typechain/hardhat'
-import '@nomiclabs/hardhat-ethers'
+import "@openzeppelin/hardhat-upgrades";
+import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-waffle";
-import "solidity-coverage"
+import "@typechain/hardhat";
+import "solidity-coverage";
 
 function getCustomUrl(url: string | undefined) {
   if (url) {

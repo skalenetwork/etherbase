@@ -57,6 +57,9 @@ jobs:
     - name: Lint
       run: yarn fullCheck
 
+    - name: Test deploy
+      run: ./scripts/test_deploy.sh
+
     - name: Run tests
       run: npx hardhat coverage
 

@@ -1,6 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "hardhat";
-import { Etherbase, EtherbaseUpgradeable, EtherController } from "../typechain";
+import { Etherbase, EtherbaseUpgradeable, EtherController } from "../typechain-types";
 import * as chai from "chai"
 import chaiAsPromised from "chai-as-promised";
 
