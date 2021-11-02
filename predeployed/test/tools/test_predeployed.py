@@ -42,7 +42,7 @@ class TestPredeployed:
             assert self.geth.poll() is None
             output_line = self.geth.stderr.readline()
             if 'HTTP server started' in output_line:
-                break            
+                break
 
         return GethInstance(self.geth)
 
