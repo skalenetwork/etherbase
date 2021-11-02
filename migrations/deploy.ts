@@ -39,7 +39,7 @@ async function main() {
     if (upgradeable) {
         console.log("Deploy EtherbaseUpgradeable");
         const etherbaseUpgradeableFactory = await ethers.getContractFactory("EtherbaseUpgradeable");
-        const etherbase = (await upgrades.deployProxy(etherbaseUpgradeableFactory, [deployer.address])) as EtherbaseUpgradeable;
+        const etherbase = (await upgrades.deployProxy(etherbaseUpgradeableFactory, [deployer.address]));
         await etherbase.deployTransaction.wait();
         etherbaseAddress = etherbase.address;
         etherbaseInterface = etherbase.interface;
