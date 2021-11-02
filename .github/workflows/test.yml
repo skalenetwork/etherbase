@@ -85,9 +85,6 @@ jobs:
         VERSION: "0.0.0"
       run: predeployed/scripts/build_package.sh
 
-    - name: Check port 8545
-      run: netstat -t -u -l -p -n | grep 8545 | test -n
-
     - name: Run tests of predeployed part
       env:
         PYTHONPATH: predeployed/src
