@@ -57,8 +57,11 @@ jobs:
     - name: Lint
       run: yarn fullCheck
 
+    - name: Test deploy
+      run: ./scripts/test_deploy.sh
+
     - name: Run tests
-      run: ./scripts/measure_coverage.sh
+      run: npx hardhat coverage
 
     - name: Install python building tools
       run: pip3 install -r predeployed/scripts/requirements.txt

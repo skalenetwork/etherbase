@@ -1,13 +1,24 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "hardhat";
-import { Etherbase, EtherController } from "../typechain";
+import { Etherbase, EtherbaseUpgradeable, EtherController } from "../typechain-types";
 import * as chai from "chai"
 import chaiAsPromised from "chai-as-promised";
 
 chai.should();
 chai.use(chaiAsPromised)
 
-describe("Etherbase", () => {
+
+async function deployEtherbase(schainOwner: string) {
+    return await (await ethers.getContractFactory('Etherbase')).deploy(schainOwner) as Etherbase;
+}
+
+async function deployEtherbaseUpgradeable(schainOwner: string) {
+    const etherbase = await (await ethers.getContractFactory('EtherbaseUpgradeable')).deploy() as EtherbaseUpgradeable;
+    await etherbase.initialize(schainOwner);
+    return etherbase as Etherbase;
+}
+
+function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase>) {
     let schainOwner: SignerWithAddress;
     let hacker: SignerWithAddress;
     let etherbase: Etherbase;
@@ -15,7 +26,7 @@ describe("Etherbase", () => {
 
     beforeEach(async() => {
         [ schainOwner, hacker ] = await ethers.getSigners();
-        etherbase = await (await ethers.getContractFactory('Etherbase')).deploy(schainOwner.address) as Etherbase;
+        etherbase = await deploy(schainOwner.address);
     })
 
     it("should allow schain owner to grant roles", async () => {
@@ -24,7 +35,9 @@ describe("Etherbase", () => {
     });
 
     it("should be able to receive ETH", async () => {
-        await schainOwner.sendTransaction({value: amount, to: etherbase.address});
+        await schainOwner.sendTransaction({value: amount, to: etherbase.address})
+            .should.emit(etherbase, "EtherReceived")
+            .withArgs(schainOwner.address, amount);
         await ethers.provider.getBalance(etherbase.address).should.eventually.equal(amount);
     });
 
@@ -40,7 +53,9 @@ describe("Etherbase", () => {
         it("should be able to give ETH", async () => {
             const half = amount.div(2);
             const balanceBefore = await ethers.provider.getBalance(hacker.address);
-            await etherbase.partiallyRetrieve(hacker.address, half);
+            await etherbase.partiallyRetrieve(hacker.address, half)
+                .should.emit(etherbase, "EtherSent")
+                .withArgs(hacker.address, half);
             await ethers.provider.getBalance(etherbase.address).should.eventually.equal(amount.sub(half));
             await ethers.provider.getBalance(hacker.address).should.eventually.equal(half.add(balanceBefore));
 
@@ -59,11 +74,22 @@ describe("Etherbase", () => {
             const etherbaseBalanceBefore = await ethers.provider.getBalance(etherbase.address);
             const userBalanceBefore = await ethers.provider.getBalance(hacker.address);
 
-            await etherController.provideEth(hacker.address);
+            await etherController.provideEth(hacker.address)
+                .should.emit(etherbase, "EtherSent")
+                .withArgs(hacker.address, etherbaseBalanceBefore);
             await ethers.provider.getBalance(etherbase.address).should.eventually.equal(0);
             await ethers.provider.getBalance(hacker.address).should.eventually.equal(userBalanceBefore.add(etherbaseBalanceBefore));
 
+            // return ETH
             await hacker.sendTransaction({to: etherbase.address, value: etherbaseBalanceBefore});
         });
     });
+}
+
+describe("Etherbase", () => {
+    testEtherbase(deployEtherbase);
+});
+
+describe("EtherbaseUpgradeable", () => {
+    testEtherbase(deployEtherbaseUpgradeable);
 });

@@ -8,7 +8,7 @@
         "dictionaries/**/*",
         "cache/**/*",
         "artifacts/**/*",
-        "typechain/**/*",
+        "typechain-types/**/*",
         "coverage/**/*",
         "**/venv/**/*",
         "**/requirements.txt",
