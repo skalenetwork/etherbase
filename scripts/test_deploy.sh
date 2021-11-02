@@ -13,8 +13,7 @@ tail --pid=$GANACHE_PID -f /dev/null
 
 while true
 do
-    netstat -t -u -l -p -n | grep 8545
-    if [ $? -ne 0 ]
+    if ! netstat -t -u -l -p -n | grep 8545
     then
         break
     fi
