@@ -8,17 +8,17 @@ chai.should();
 chai.use(chaiAsPromised)
 
 
-async function deployEscrow(schainOwner: string) {
+async function deployEtherbase(schainOwner: string) {
     return await (await ethers.getContractFactory('Etherbase')).deploy(schainOwner) as Etherbase;
 }
 
-async function deployEscrowUpgradeable(schainOwner: string) {
+async function deployEtherbaseUpgradeable(schainOwner: string) {
     const etherbase = await (await ethers.getContractFactory('EtherbaseUpgradeable')).deploy() as EtherbaseUpgradeable;
     await etherbase.initialize(schainOwner);
     return etherbase as Etherbase;
 }
 
-function testEscrow(deploy: (schainOwner: string) => Promise<Etherbase>) {
+function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase>) {
     let schainOwner: SignerWithAddress;
     let hacker: SignerWithAddress;
     let etherbase: Etherbase;
@@ -27,7 +27,6 @@ function testEscrow(deploy: (schainOwner: string) => Promise<Etherbase>) {
     beforeEach(async() => {
         [ schainOwner, hacker ] = await ethers.getSigners();
         etherbase = await deploy(schainOwner.address);
-        etherbase = await (await ethers.getContractFactory('Etherbase')).deploy(schainOwner.address) as Etherbase;
     })
 
     it("should allow schain owner to grant roles", async () => {
@@ -88,9 +87,9 @@ function testEscrow(deploy: (schainOwner: string) => Promise<Etherbase>) {
 }
 
 describe("Etherbase", () => {
-    testEscrow(deployEscrow);
+    testEtherbase(deployEtherbase);
 });
 
 describe("EtherbaseUpgradeable", () => {
-    testEscrow(deployEscrowUpgradeable);
+    testEtherbase(deployEtherbaseUpgradeable);
 });
