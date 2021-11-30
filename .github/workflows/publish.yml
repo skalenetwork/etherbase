@@ -54,6 +54,7 @@ jobs:
     - name: Determine version
       run: |
         export BRANCH=${GITHUB_REF##*/}
+        echo "BRANCH=$BRANCH" >> $GITHUB_ENV
         echo "Branch $BRANCH"
         export VERSION=$(bash ./predeployed/scripts/calculate_version.sh)
         echo "VERSION=$VERSION" >> $GITHUB_ENV
@@ -70,6 +71,12 @@ jobs:
       env:
         PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
       run: predeployed/scripts/publish_package.sh
+
+    - name: Publish interfaces npm package
+      env:
+        BRANCH: ${{ env.BRANCH }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: ./interfaces/publish_package.sh
 
     - name: Create Release
       id: create_release
