@@ -28,7 +28,7 @@ import "./interfaces/IEtherbaseUpgradeable.sol";
 
 contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseUpgradeable {
 
-    bytes32 public constant ETHER_MANAGER_ROLE = keccak256("ETHER_MANAGER_ROLE");
+    bytes32 public constant override ETHER_MANAGER_ROLE = keccak256("ETHER_MANAGER_ROLE");
 
     event EtherReceived(
         address sender,

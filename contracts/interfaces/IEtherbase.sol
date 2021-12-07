@@ -19,7 +19,8 @@
  *   along with Etherbase.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pragma solidity ^0.8.9;
+// solhint-disable-next-line compiler-version
+pragma solidity ^0.8.0;
 
 interface IEtherbase {
     receive() external payable;

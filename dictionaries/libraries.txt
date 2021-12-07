@@ -1,5 +1,6 @@
 codecov
 ethersproject
+func-name-mixedcase
 initializable
 mypy
 nomiclabs
