@@ -825,10 +825,10 @@
     "@types/sinon-chai" "^3.2.3"
     "@types/web3" "1.0.19"
 
-"@openzeppelin/contracts-upgradeable@^4.3.3":
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts-upgradeable/-/contracts-upgradeable-4.3.3.tgz#dfd8ac012fd7f53ece4b31b736fcab09565a2615"
-  integrity sha512-2ELsJkBQ0xirVQnx0utl3N+/iTPF+S0r3j0IVQIMG0HgAWreFXumY+yhGcwSV5JZ/yNNAXWR4mjIYRH/FEgu2Q==
+"@openzeppelin/contracts-upgradeable@^4.4.0":
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts-upgradeable/-/contracts-upgradeable-4.4.0.tgz#85161d87c840c5bce2b6ed0c727b407e774852ae"
+  integrity sha512-hIEyWJHu7bDTv6ckxOaV+K3+7mVzhjtyvp3QSaz56Rk5PscXtPAbkiNTb3yz6UJCWHPWpxVyULVgZ6RubuFEZg==
 
 "@openzeppelin/contracts@^4.4.0":
   version "4.4.0"
@@ -8974,10 +8974,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^4.5.2:
-  version "4.5.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.2.tgz#8ac1fba9f52256fdb06fb89e4122fa6a346c2998"
-  integrity sha512-5BlMof9H1yGt0P8/WF+wPNw6GfctgGjXp5hkblpyT+8rkASSmkUKMXrxR0Xg8ThVCi/JnHQiKXeBaEwCeQwMFw==
+typescript@^4.5.3:
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.3.tgz#afaa858e68c7103317d89eb90c5d8906268d353c"
+  integrity sha512-eVYaEHALSt+s9LbvgEv4Ef+Tdq7hBiIZgii12xXJnukryt3pMgJf6aKhoCZ3FWQsu6sydEnkg11fYXLzhLBjeQ==
 
 typewise-core@^1.2, typewise-core@^1.2.0:
   version "1.2.0"
