@@ -48,8 +48,12 @@ class EtherbaseGenerator(AccessControlEnumerableGenerator):
         '''
         schain_owner = kwargs['schain_owner']
         ether_managers = kwargs.get('ether_managers', [])
+
         assert isinstance(schain_owner, str)
-        assert isinstance(ether_managers, List[str])
+        assert isinstance(ether_managers, list)
+        for item in ether_managers:
+            assert isinstance(item, str)
+
         if schain_owner not in ether_managers:
             ether_managers.append(schain_owner)
         storage: Dict[str, str] = {}
