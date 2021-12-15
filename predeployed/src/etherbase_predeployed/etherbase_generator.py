@@ -1,7 +1,7 @@
 '''Module for generaration of Etherbase predeployed smart contract'''
 
 from os.path import dirname, join
-from typing import Dict, List
+from typing import Dict
 from web3.auto import w3
 
 from predeployed_generator.openzeppelin.access_control_enumerable_generator \
