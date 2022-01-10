@@ -7,11 +7,16 @@ on:
       - develop
       - beta
       - stable
+  push:
+
+env:
+  NODE_VERSION: 16
+  PYTHON_VERSION: 3.9
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged    
+    # if: github.event.pull_request.merged    
     
     steps:
     - uses: actions/checkout@v2
@@ -38,13 +43,13 @@ jobs:
     - name: Install NODE JS
       uses: actions/setup-node@v2
       with:
-        node-version: 16
+        node-version: ${{ env.NODE_VERSION }}
         registry-url: 'https://registry.npmjs.org'
 
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
-        python-version: 3.9.x
+        python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Install building tools
       run: pip3 install -r ./predeployed/scripts/requirements.txt
@@ -79,6 +84,13 @@ jobs:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: ./interfaces/publish_package.sh
 
+    - name: Generate ABI
+      env:
+        VERSION: ${{ env.VERSION }}
+      run: |
+        pip install predeployed/dist/*.whl
+        ./predeployed/scripts/generate_abi.py > data/etherbase-$VERSION-abi.json
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -98,3 +110,12 @@ jobs:
       with:
         release_id: ${{ steps.create_release.outputs.id }}
         assets_path: predeployed/dist/
+
+    - name: Upload ABI
+      id: upload-abi
+      uses: dwenegar/upload-release-assets@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        release_id: ${{ steps.create_release.outputs.id }}
+        assets_path: data/*.json
