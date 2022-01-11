@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /**
- *   Etherbase.sol - Etherbase
+ *   EtherbaseUpgradeable.sol - Etherbase
  *   Copyright (C) 2021-Present SKALE Labs
  *   @author Dmytro Stebaiev
  *
@@ -21,14 +21,14 @@
 
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
+import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 
 import "./interfaces/IEtherbase.sol";
 
 
-contract Etherbase is AccessControlEnumerable, IEtherbase {
+contract Etherbase is AccessControlEnumerableUpgradeable, IEtherbase {
 
-    bytes32 public constant ETHER_MANAGER_ROLE = keccak256("ETHER_MANAGER_ROLE");
+    bytes32 public constant override ETHER_MANAGER_ROLE = keccak256("ETHER_MANAGER_ROLE");
 
     event EtherReceived(
         address sender,
@@ -44,11 +44,6 @@ contract Etherbase is AccessControlEnumerable, IEtherbase {
         require(hasRole(ETHER_MANAGER_ROLE, msg.sender), "ETHER_MANAGER_ROLE is required");
         _;
     }
-    
-    constructor (address schainOwner) {
-        _setupRole(DEFAULT_ADMIN_ROLE, schainOwner);
-        _setupRole(ETHER_MANAGER_ROLE, schainOwner);
-    }
 
     receive() external payable override {
         emit EtherReceived(msg.sender, msg.value);
@@ -56,6 +51,13 @@ contract Etherbase is AccessControlEnumerable, IEtherbase {
 
     function retrieve(address payable receiver) external override onlyEtherManager {
         partiallyRetrieve(receiver, address(this).balance);
+    }
+
+    function initialize(address schainOwner) external initializer override
+    {
+        AccessControlUpgradeable.__AccessControl_init();
+        _setupRole(DEFAULT_ADMIN_ROLE, schainOwner);
+        _setupRole(ETHER_MANAGER_ROLE, schainOwner);
     }
 
     function partiallyRetrieve(address payable receiver, uint amount) public override onlyEtherManager {

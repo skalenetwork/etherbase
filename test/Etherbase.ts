@@ -1,6 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "hardhat";
-import { Etherbase, EtherbaseUpgradeable, EtherController } from "../typechain-types";
+import { Etherbase, EtherController } from "../typechain-types";
 import * as chai from "chai"
 import chaiAsPromised from "chai-as-promised";
 
@@ -8,17 +8,7 @@ chai.should();
 chai.use(chaiAsPromised)
 
 
-async function deployEtherbase(schainOwner: string) {
-    return await (await ethers.getContractFactory('Etherbase')).deploy(schainOwner) as Etherbase;
-}
-
-async function deployEtherbaseUpgradeable(schainOwner: string) {
-    const etherbase = await (await ethers.getContractFactory('EtherbaseUpgradeable')).deploy() as EtherbaseUpgradeable;
-    await etherbase.initialize(schainOwner);
-    return etherbase as Etherbase;
-}
-
-function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase>) {
+describe("Etherbase", () => {
     let schainOwner: SignerWithAddress;
     let hacker: SignerWithAddress;
     let etherbase: Etherbase;
@@ -26,7 +16,8 @@ function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase>) {
 
     beforeEach(async() => {
         [ schainOwner, hacker ] = await ethers.getSigners();
-        etherbase = await deploy(schainOwner.address);
+        etherbase = await (await ethers.getContractFactory('Etherbase')).deploy() as Etherbase;
+        await etherbase.initialize(schainOwner.address);
     })
 
     it("should allow schain owner to grant roles", async () => {
@@ -84,12 +75,4 @@ function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase>) {
             await hacker.sendTransaction({to: etherbase.address, value: etherbaseBalanceBefore});
         });
     });
-}
-
-describe("Etherbase", () => {
-    testEtherbase(deployEtherbase);
-});
-
-describe("EtherbaseUpgradeable", () => {
-    testEtherbase(deployEtherbaseUpgradeable);
 });

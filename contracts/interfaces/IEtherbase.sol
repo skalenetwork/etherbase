@@ -22,8 +22,13 @@
 // solhint-disable-next-line compiler-version
 pragma solidity ^0.8.0;
 
-interface IEtherbase {
+import "@openzeppelin/contracts-upgradeable/access/IAccessControlUpgradeable.sol";
+
+interface IEtherbase is IAccessControlUpgradeable {
     receive() external payable;
     function retrieve(address payable receiver) external;
     function partiallyRetrieve(address payable receiver, uint amount) external;
+    function initialize(address schainOwner) external;
+    // slither-disable-next-line naming-convention
+    function ETHER_MANAGER_ROLE() external pure returns (bytes32); // solhint-disable-line func-name-mixedcase
 }
