@@ -85,4 +85,4 @@ class UpgradeableEtherbaseGenerator(UpgradeableContractGenerator):
     '''
 
     def __init__(self):
-        super().__init__(implementation_generator=EtherbaseUpgradeableGenerator())
+        super().__init__(implementation_generator=EtherbaseGenerator())
