@@ -13,7 +13,7 @@ class EtherbaseGenerator(AccessControlEnumerableGenerator):
     '''Generates non upgradeable instance of Etherbase
     '''
 
-    ARTIFACT_FILENAME = 'EtherbaseUpgradeable.json'
+    ARTIFACT_FILENAME = 'Etherbase.json'
     DEFAULT_ADMIN_ROLE = (0).to_bytes(32, 'big')
     ETHER_MANAGER_ROLE = w3.solidityKeccak(['string'], ['ETHER_MANAGER_ROLE'])
 
