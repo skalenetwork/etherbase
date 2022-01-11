@@ -19,7 +19,7 @@ async function main() {
 
     let etherbaseAddress: string;
     let etherbaseInterface: Interface;
-    
+
     console.log("Deploy Etherbase");
     const etherbaseUpgradeableFactory = await ethers.getContractFactory("Etherbase");
     const etherbase = (await upgrades.deployProxy(etherbaseUpgradeableFactory, [deployer.address]));
