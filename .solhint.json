@@ -16,6 +16,7 @@
     "ordering": "error",
     "private-vars-leading-underscore": "error",
     "state-visibility": "error",
-    "visibility-modifier-order": "error"
+    "visibility-modifier-order": "error",
+    "payable-fallback": "error"
   }
 }

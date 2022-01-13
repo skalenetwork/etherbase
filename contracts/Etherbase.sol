@@ -22,13 +22,18 @@
 pragma solidity ^0.8.11;
 
 import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 
 import "./interfaces/IEtherbase.sol";
 
 
 contract Etherbase is AccessControlEnumerableUpgradeable, IEtherbase {
 
+    using AddressUpgradeable for address;
+
     bytes32 public constant override ETHER_MANAGER_ROLE = keccak256("ETHER_MANAGER_ROLE");
+
+    address public addBalancePredeployed;
 
     event EtherReceived(
         address sender,
@@ -45,12 +50,21 @@ contract Etherbase is AccessControlEnumerableUpgradeable, IEtherbase {
         _;
     }
 
+    modifier onlyOwner() {
+        require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), "DEFAULT_ADMIN_ROLE is required");
+        _;
+    }
+
     receive() external payable override {
         emit EtherReceived(msg.sender, msg.value);
     }
 
     function retrieve(address payable receiver) external override onlyEtherManager {
         partiallyRetrieve(receiver, address(this).balance);
+    }
+
+    function setAddBalancePredeployedAddress(address addBalanceAddress) external override onlyOwner {
+        addBalancePredeployed = addBalanceAddress;
     }
 
     function initialize(address schainOwner) external initializer override
@@ -60,6 +74,10 @@ contract Etherbase is AccessControlEnumerableUpgradeable, IEtherbase {
         _setupRole(ETHER_MANAGER_ROLE, schainOwner);
     }
 
+    function mint(address target, uint value) external view override onlyEtherManager returns (bytes memory) {
+        return _functionStaticCall(addBalancePredeployed, abi.encodePacked(target, value), "AddBalance call failed");
+    }
+
     function partiallyRetrieve(address payable receiver, uint amount) public override onlyEtherManager {
         require(receiver != address(0), "Receiver address is not set");
         require(amount <= address(this).balance, "Insufficient funds");
@@ -67,5 +85,16 @@ contract Etherbase is AccessControlEnumerableUpgradeable, IEtherbase {
         emit EtherSent(receiver, amount);
 
         receiver.transfer(amount);
+    }
+
+    // private
+
+    function _functionStaticCall(
+        address target,
+        bytes memory data,
+        string memory errorMessage
+    ) private view returns (bytes memory) {
+        (bool success, bytes memory returnData) = target.staticcall(data);
+        return AddressUpgradeable.verifyCallResult(success, returnData, errorMessage);
     }
 }

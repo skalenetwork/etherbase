@@ -29,6 +29,8 @@ interface IEtherbase is IAccessControlUpgradeable {
     function retrieve(address payable receiver) external;
     function partiallyRetrieve(address payable receiver, uint amount) external;
     function initialize(address schainOwner) external;
+    function setAddBalancePredeployedAddress(address addBalanceAddress) external;
+    function mint(address target, uint value) external view returns (bytes memory);
     // slither-disable-next-line naming-convention
     function ETHER_MANAGER_ROLE() external pure returns (bytes32); // solhint-disable-line func-name-mixedcase
 }

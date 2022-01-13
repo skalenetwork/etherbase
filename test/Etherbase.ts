@@ -1,6 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "hardhat";
-import { Etherbase, EtherController } from "../typechain-types";
+import { Etherbase, EtherController, PrecompiledMock } from "../typechain-types";
 import * as chai from "chai"
 import chaiAsPromised from "chai-as-promised";
 
@@ -11,13 +11,19 @@ chai.use(chaiAsPromised)
 describe("Etherbase", () => {
     let schainOwner: SignerWithAddress;
     let hacker: SignerWithAddress;
+    let user: SignerWithAddress;
+
     let etherbase: Etherbase;
+    let precompiled: PrecompiledMock;
+
     const amount = ethers.utils.parseEther("5");
 
     beforeEach(async() => {
-        [ schainOwner, hacker ] = await ethers.getSigners();
+        [ schainOwner, hacker, user ] = await ethers.getSigners();
         etherbase = await (await ethers.getContractFactory('Etherbase')).deploy() as Etherbase;
         await etherbase.initialize(schainOwner.address);
+        precompiled = await (await ethers.getContractFactory("PrecompiledMock")).deploy() as PrecompiledMock;
+        await etherbase.setAddBalancePredeployedAddress(precompiled.address);
     })
 
     it("should allow schain owner to grant roles", async () => {
@@ -30,6 +36,12 @@ describe("Etherbase", () => {
             .should.emit(etherbase, "EtherReceived")
             .withArgs(schainOwner.address, amount);
         await ethers.provider.getBalance(etherbase.address).should.eventually.equal(amount);
+    });
+
+    it("should mint new skETH", async () => {
+        await precompiled.setTarget(user.address);
+        await precompiled.setValue(amount)
+        await etherbase.mint(user.address, amount);
     });
 
     describe("when Etherbase has ETH", async () => {
