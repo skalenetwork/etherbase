@@ -1049,10 +1049,10 @@
   dependencies:
     ethers "^5.0.2"
 
-"@typechain/ethers-v5@^8.0.3":
-  version "8.0.3"
-  resolved "https://registry.yarnpkg.com/@typechain/ethers-v5/-/ethers-v5-8.0.3.tgz#c9a41615648597568751bcc67200f6987a295379"
-  integrity sha512-p85DhWgbE4prFkHcIQzQuAK1+TrgJLjkMSWdATKg6nO1FfWl7hX7mICsbgGgqmRh0+iPE29d/etqmbSAQlffPw==
+"@typechain/ethers-v5@^8.0.5":
+  version "8.0.5"
+  resolved "https://registry.yarnpkg.com/@typechain/ethers-v5/-/ethers-v5-8.0.5.tgz#d469420e9a73deb7fa076cde9edb45d713dd1b8c"
+  integrity sha512-ntpj4cS3v4WlDu+hSKSyj9A3o1tKtWC30RX1gobeYymZColeJiUemC1Kgfa0MWGmInm5CKxoHVhEvYVgPOZn1A==
   dependencies:
     lodash "^4.17.15"
     ts-essentials "^7.0.1"
