@@ -1,9 +1,6 @@
-// tslint:disable:no-console
-
 import { promises as fs } from 'fs';
 import { Interface } from "ethers/lib/utils";
-import { ethers, upgrades, network, artifacts } from "hardhat";
-import { EtherbaseUpgradeable } from "../typechain-types";
+import { ethers, upgrades, network } from "hardhat";
 import { getAbi } from './tools/abi';
 import { verify, verifyProxy } from './tools/verification';
 import { getVersion } from './tools/version';
