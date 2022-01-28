@@ -1,6 +1,6 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "hardhat";
-import { Etherbase, EtherbaseUpgradeable, EtherController } from "../typechain-types";
+import { Etherbase, EtherbaseUpgradeable } from "../typechain-types";
 import * as chai from "chai"
 import chaiAsPromised from "chai-as-promised";
 
@@ -9,19 +9,19 @@ chai.use(chaiAsPromised)
 
 
 async function deployEtherbase(schainOwner: string) {
-    return await (await ethers.getContractFactory('Etherbase')).deploy(schainOwner) as Etherbase;
+    return await (await ethers.getContractFactory('Etherbase')).deploy(schainOwner);
 }
 
 async function deployEtherbaseUpgradeable(schainOwner: string) {
-    const etherbase = await (await ethers.getContractFactory('EtherbaseUpgradeable')).deploy() as EtherbaseUpgradeable;
+    const etherbase = await (await ethers.getContractFactory('EtherbaseUpgradeable')).deploy();
     await etherbase.initialize(schainOwner);
-    return etherbase as Etherbase;
+    return etherbase;
 }
 
-function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase>) {
+function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase | EtherbaseUpgradeable>) {
     let schainOwner: SignerWithAddress;
     let hacker: SignerWithAddress;
-    let etherbase: Etherbase;
+    let etherbase: Etherbase | EtherbaseUpgradeable;
     const amount = ethers.utils.parseEther("5");
 
     beforeEach(async() => {
@@ -41,7 +41,7 @@ function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase>) {
         await ethers.provider.getBalance(etherbase.address).should.eventually.equal(amount);
     });
 
-    describe("when Etherbase has ETH", async () => {
+    describe("when Etherbase has ETH", () => {
         beforeEach(async () => {
             await schainOwner.sendTransaction({value: amount, to: etherbase.address});
         });
@@ -68,7 +68,7 @@ function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase>) {
         })
 
         it("should allow smart contract to retrieve ETH", async () => {
-            const etherController = await (await ethers.getContractFactory("EtherController")).deploy(etherbase.address) as EtherController;
+            const etherController = await (await ethers.getContractFactory("EtherController")).deploy(etherbase.address);
             await etherbase.grantRole(await etherbase.ETHER_MANAGER_ROLE(), etherController.address);
 
             const etherbaseBalanceBefore = await ethers.provider.getBalance(etherbase.address);

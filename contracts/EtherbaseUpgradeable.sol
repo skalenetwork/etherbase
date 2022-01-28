@@ -19,7 +19,7 @@
  *   along with Etherbase.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.11;
 
 import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 
@@ -28,7 +28,7 @@ import "./interfaces/IEtherbaseUpgradeable.sol";
 
 contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseUpgradeable {
 
-    bytes32 public constant ETHER_MANAGER_ROLE = keccak256("ETHER_MANAGER_ROLE");
+    bytes32 public constant override ETHER_MANAGER_ROLE = keccak256("ETHER_MANAGER_ROLE");
 
     event EtherReceived(
         address sender,

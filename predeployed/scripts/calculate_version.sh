@@ -16,6 +16,9 @@ if [ -z "$VERSION" ]; then
       exit 1
 fi
 
+VERSION=$(echo $VERSION | tr [:upper:] [:lower:] | tr -d [:space:])
+BRANCH=$(echo $BRANCH | tr [:upper:] [:lower:] | tr -d [:space:])
+
 if [[ $BRANCH == 'master' ]]; then
     echo "$VERSION"
     exit 1
