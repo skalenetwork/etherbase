@@ -28,6 +28,7 @@ class TestUpgradeableEtherbaseGenerator(TestSolidityProject):
             })
 
     def test_default_admin_role(self, tmpdir):
+        self.datadir = tmpdir
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
@@ -39,6 +40,7 @@ class TestUpgradeableEtherbaseGenerator(TestSolidityProject):
             assert etherbase.functions.hasRole(EtherbaseUpgradeableGenerator.DEFAULT_ADMIN_ROLE, self.OWNER_ADDRESS).call()
 
     def test_ether_manager_role(self, tmpdir):
+        self.datadir = tmpdir
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
