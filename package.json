@@ -1,7 +1,7 @@
 {
   "name": "etherbase",
   "version": "0.0.1",
-  "description": "Predeployed smart contract that stores and manages access to ETH received from block rewards and gas fees.",
+  "description": "Predeployed smart contract that stores and manages access to sFUEL received from block rewards and gas fees.",
   "main": "index.js",
   "repository": "git@github.com:skalenetwork/etherbase.git",
   "author": "Dmytro Stebaiev <dmytro@skalelabs.com>",
