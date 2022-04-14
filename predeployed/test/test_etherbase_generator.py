@@ -20,6 +20,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
             ether_managers=[self.IMA_ADDRESS]))
 
     def test_default_admin_role(self, tmpdir):
+        self.datadir = tmpdir
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
@@ -31,6 +32,7 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert etherbase.functions.hasRole(EtherbaseGenerator.DEFAULT_ADMIN_ROLE, self.OWNER_ADDRESS).call()
 
     def test_ether_manager_role(self, tmpdir):
+        self.datadir = tmpdir
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
