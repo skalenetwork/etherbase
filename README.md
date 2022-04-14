@@ -2,7 +2,7 @@
 
 ## Description
 
-Predeployed smart contract that stores and manages access to ETH received from block rewards and gas fees.
+Predeployed smart contract that stores and manages access to sFUEL received from block rewards and gas fees.
 
 ## Predeployed mode
 
