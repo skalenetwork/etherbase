@@ -44,4 +44,8 @@ class TestEtherbaseGenerator(TestSolidityProject):
             assert etherbase.functions.hasRole(EtherbaseGenerator.ETHER_MANAGER_ROLE, self.IMA_ADDRESS).call()
             assert etherbase.functions.getRoleMember(EtherbaseGenerator.ETHER_MANAGER_ROLE, 1).call() == self.OWNER_ADDRESS            
             assert etherbase.functions.hasRole(EtherbaseGenerator.ETHER_MANAGER_ROLE, self.OWNER_ADDRESS).call()
+
+    def test_meta_info(self):
+        meta = EtherbaseGenerator().get_meta()
+        assert meta['name'] == 'Etherbase'
     
