@@ -14,4 +14,4 @@ fi
 files=$(git diff --cached --name-only)
 npx cspell -- --no-summary $files
 
-#yarn fullCheck
+yarn fullCheck

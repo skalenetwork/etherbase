@@ -31,11 +31,10 @@ class EtherbaseGenerator(AccessControlEnumerableGenerator):
     ROLE_MEMBERS_SLOT = AccessControlEnumerableGenerator.next_slot(ROLES_SLOT)
 
     def __init__(self):
-        generator = EtherbaseGenerator.from_hardhat_artifact(join(
-            dirname(__file__),
-            'artifacts',
-            self.ARTIFACT_FILENAME))
-        super().__init__(bytecode=generator.bytecode, abi=generator.abi)
+        generator = EtherbaseGenerator.from_hardhat_artifact(
+            join(dirname(__file__), 'artifacts', self.ARTIFACT_FILENAME),
+            join(dirname(__file__), 'artifacts', self.META_FILENAME))
+        super().__init__(bytecode=generator.bytecode, abi=generator.abi, meta=generator.meta)
 
     @classmethod
     def generate_storage(cls, **kwargs) -> Dict[str, str]:
