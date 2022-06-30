@@ -11,6 +11,7 @@ class EtherbaseUpgradeableGenerator(EtherbaseGenerator):
     '''
 
     ARTIFACT_FILENAME = 'EtherbaseUpgradeable.json'
+    META_FILENAME = 'EtherbaseUpgradeable.meta.json'
 
     # --------------- storage ---------------
     # ------------ Initializable ------------

@@ -13,6 +13,7 @@ class EtherbaseGenerator(AccessControlEnumerableGenerator):
     '''
 
     ARTIFACT_FILENAME = 'Etherbase.json'
+    META_FILENAME = 'Etherbase.meta.json'
     DEFAULT_ADMIN_ROLE = (0).to_bytes(32, 'big')
     ETHER_MANAGER_ROLE = w3.solidityKeccak(['string'], ['ETHER_MANAGER_ROLE'])
 
