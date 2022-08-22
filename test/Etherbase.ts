@@ -42,28 +42,19 @@ function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase | Ethe
         await ethers.provider.getBalance(etherbase.address).should.eventually.equal(amount);
     });
 
-    // async const ifEtherbaseUpgradeableIt = (title: string, test: Mocha.Func) : Promise<Mocha.Test> => {
-    //     let etherbaseUpgradeable: EtherbaseUpgradeable = etherbase as EtherbaseUpgradeable;
-    //     console.log(this);
+    it("should allow only owner to set a version", async function (this: Mocha.Context) {
+        if (this.test?.fullTitle().includes("EtherbaseUpgradeable")) {
+            let etherbaseUpgradeable: EtherbaseUpgradeable = etherbase as EtherbaseUpgradeable;
 
-    //     try {
-    //     } catch (e) {
-    //         return it.skip(title, test);
-    //     }
-    //     return it(title, test);
-    // }
-
-    // ifEtherbaseUpgradeableIt("should allow only owner to set a version", async () => {
-    //     let etherbaseUpgradeable: EtherbaseUpgradeable = etherbase as EtherbaseUpgradeable;
-        
-    //     await expect(etherbaseUpgradeable.connect(hacker).setVersion("bad")).to.be.revertedWithCustomError(
-    //         etherbaseUpgradeable,
-    //         "Unauthorized"
-    //         );
-
-    //     await etherbaseUpgradeable.setVersion("good");
-    //     (await etherbaseUpgradeable.version()).should.be.equal("good");
-    // });
+            await expect(etherbaseUpgradeable.connect(hacker).setVersion("bad")).to.be.revertedWithCustomError(
+                etherbaseUpgradeable,
+                "Unauthorized"
+                );
+                
+            await etherbaseUpgradeable.setVersion("good");
+            (await etherbaseUpgradeable.version()).should.be.equal("good");
+        }
+    });
 
     describe("when Etherbase has ETH", async () => {
         beforeEach(async () => {
