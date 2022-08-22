@@ -42,7 +42,7 @@ function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase | Ethe
         await ethers.provider.getBalance(etherbase.address).should.eventually.equal(amount);
     });
 
-    // async const ifEtherbaseUpgradebleIt = (title: string, test: Mocha.Func) : Promise<Mocha.Test> => {
+    // async const ifEtherbaseUpgradeableIt = (title: string, test: Mocha.Func) : Promise<Mocha.Test> => {
     //     let etherbaseUpgradeable: EtherbaseUpgradeable = etherbase as EtherbaseUpgradeable;
     //     console.log(this);
 
@@ -53,7 +53,7 @@ function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase | Ethe
     //     return it(title, test);
     // }
 
-    // ifEtherbaseUpgradebleIt("should allow only owner to set a version", async () => {
+    // ifEtherbaseUpgradeableIt("should allow only owner to set a version", async () => {
     //     let etherbaseUpgradeable: EtherbaseUpgradeable = etherbase as EtherbaseUpgradeable;
         
     //     await expect(etherbaseUpgradeable.connect(hacker).setVersion("bad")).to.be.revertedWithCustomError(
