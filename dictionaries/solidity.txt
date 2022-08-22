@@ -1,1 +1,4 @@
 solidityKeccak
+mload
+delegatecall
+chainid

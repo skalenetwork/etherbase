@@ -1,4 +1,4 @@
-'''Module for generaration of Etherbase predeployed smart contract'''
+'''Module for generation of Etherbase predeployed smart contract'''
 from typing import Dict
 
 from predeployed_generator.upgradeable_contract_generator import UpgradeableContractGenerator
