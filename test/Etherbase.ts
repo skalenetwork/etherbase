@@ -44,7 +44,7 @@ function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase | Ethe
 
     it("should allow only owner to set a version", async function (this: Mocha.Context) {
         if (this.test?.fullTitle().includes("EtherbaseUpgradeable")) {
-            let etherbaseUpgradeable: EtherbaseUpgradeable = etherbase as EtherbaseUpgradeable;
+            const etherbaseUpgradeable: EtherbaseUpgradeable = etherbase as EtherbaseUpgradeable;
 
             await expect(etherbaseUpgradeable.connect(hacker).setVersion("bad")).to.be.revertedWithCustomError(
                 etherbaseUpgradeable,
@@ -56,7 +56,7 @@ function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase | Ethe
         }
     });
 
-    describe("when Etherbase has ETH", async () => {
+    describe("when Etherbase has ETH", () => {
         beforeEach(async () => {
             await schainOwner.sendTransaction({value: amount, to: etherbase.address});
         });
