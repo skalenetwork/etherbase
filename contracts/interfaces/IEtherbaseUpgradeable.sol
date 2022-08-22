@@ -30,4 +30,5 @@ interface IEtherbaseUpgradeable is IAccessControlUpgradeable, IEtherbase {
     function initialize(address schainOwner) external;
     // slither-disable-next-line naming-convention
     function ETHER_MANAGER_ROLE() external pure returns (bytes32); // solhint-disable-line func-name-mixedcase
+    function setVersion(string calldata newVersion) external;
 }

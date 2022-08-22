@@ -2,6 +2,7 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "hardhat";
 import { Etherbase, EtherbaseUpgradeable } from "../typechain-types";
 import * as chai from "chai"
+import { expect } from "chai";
 import chaiAsPromised from "chai-as-promised";
 
 chai.should();
@@ -41,7 +42,30 @@ function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase | Ethe
         await ethers.provider.getBalance(etherbase.address).should.eventually.equal(amount);
     });
 
-    describe("when Etherbase has ETH", () => {
+    // async const ifEtherbaseUpgradebleIt = (title: string, test: Mocha.Func) : Promise<Mocha.Test> => {
+    //     let etherbaseUpgradeable: EtherbaseUpgradeable = etherbase as EtherbaseUpgradeable;
+    //     console.log(this);
+
+    //     try {
+    //     } catch (e) {
+    //         return it.skip(title, test);
+    //     }
+    //     return it(title, test);
+    // }
+
+    // ifEtherbaseUpgradebleIt("should allow only owner to set a version", async () => {
+    //     let etherbaseUpgradeable: EtherbaseUpgradeable = etherbase as EtherbaseUpgradeable;
+        
+    //     await expect(etherbaseUpgradeable.connect(hacker).setVersion("bad")).to.be.revertedWithCustomError(
+    //         etherbaseUpgradeable,
+    //         "Unauthorized"
+    //         );
+
+    //     await etherbaseUpgradeable.setVersion("good");
+    //     (await etherbaseUpgradeable.version()).should.be.equal("good");
+    // });
+
+    describe("when Etherbase has ETH", async () => {
         beforeEach(async () => {
             await schainOwner.sendTransaction({value: amount, to: etherbase.address});
         });
