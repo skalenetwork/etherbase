@@ -952,10 +952,22 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@skalenetwork/upgrade-tools@1.0.0-optional-contract-manager.1":
-  version "1.0.0-optional-contract-manager.1"
-  resolved "https://registry.yarnpkg.com/@skalenetwork/upgrade-tools/-/upgrade-tools-1.0.0-optional-contract-manager.1.tgz#a8afd87c61a45246671828f4d370980c664295cf"
-  integrity sha512-kNG7HQUwh1Ug0YXvyhCwamBPxXYby20fnggGx5E5xGE1U8NGlNiAXvrfaVcDtwSLtPsVvBayQToT3I77PdGTBA==
+"@skalenetwork/ima-interfaces@^1.0.0-stable.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@skalenetwork/ima-interfaces/-/ima-interfaces-1.0.0.tgz#d642c4fc424813837f13854d05bae7092c456184"
+  integrity sha512-daHzdHk10szph/Lwcb+p8w7Z5iouvqNsODRX048SLSVGAQYtmr6nw+/Y+H70gx29tBV2+TZUCAPt/4gi8/eITA==
+  dependencies:
+    "@skalenetwork/skale-manager-interfaces" "^0.1.2"
+
+"@skalenetwork/skale-manager-interfaces@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@skalenetwork/skale-manager-interfaces/-/skale-manager-interfaces-0.1.2.tgz#88e543c8cc298cd0cc9559892d746d2d74786da8"
+  integrity sha512-gapSQJahwWMlTB/xp/kMzB6k+9+Skx/N0fvEloiW4CUrkGkSa8+fj16YmUXX45p1hOc45W+JydiJPNgZtx32Dg==
+
+"@skalenetwork/upgrade-tools@1.0.0-optional-contract-manager.15":
+  version "1.0.0-optional-contract-manager.15"
+  resolved "https://registry.yarnpkg.com/@skalenetwork/upgrade-tools/-/upgrade-tools-1.0.0-optional-contract-manager.15.tgz#f2e00fe9b04a64b27041fa7092194a46b5d02c48"
+  integrity sha512-XdAegjO5Xz8kQOI1LXWgcNLWB28hTeQwQoBT6iQcs6i1jf718NR6OEwRxKCDuIwgkN7JkiMFWxEnzCfp3rPuZQ==
   dependencies:
     "@openzeppelin/contracts-upgradeable" "^4.4.2"
     axios "^0.27.2"
