@@ -24,7 +24,7 @@ CURRENT_NODE_VERSION=$(nvm current)
 
 git clone --branch $DEPLOYED_TAG https://github.com/$GITHUB_REPOSITORY.git $DEPLOYED_DIR
 
-npx ganache-cli --gasLimit 8000000 --quiet &
+npx ganache -q &
 
 result=$(npx hardhat run scripts/deployMarionetteMock.ts --network localhost)
 MARIONETTE_MOCK_ADDRESS=${result#*"MarionetteMock address: "}
