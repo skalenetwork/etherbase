@@ -2,3 +2,4 @@ solidityKeccak
 mload
 delegatecall
 chainid
+struct

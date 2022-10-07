@@ -1,6 +1,9 @@
 import { ethers } from "hardhat";
 import chalk from "chalk";
-import { upgrade, SkaleABIFile, getContractKeyInAbiFile, encodeTransaction } from "@skalenetwork/upgrade-tools"
+import hre from "hardhat";
+import { SkaleABIFile, getContractKeyInAbiFile, encodeTransaction, upgrade } from "@skalenetwork/upgrade-tools";
+import { getManifestAdmin } from "@openzeppelin/hardhat-upgrades/dist/admin";
+import { ProxyAdmin } from "@skalenetwork/upgrade-tools/dist/typechain-types";
 
 
 async function getEtherbaseUpgradeable(abi: SkaleABIFile) {
@@ -41,8 +44,78 @@ async function main() {
             // deploy new contracts
         },
         // async (safeTransactions, abi, contractManager) => {
-        async () => {
-            // initialize
+        async (safeTransactions, abi, _, safeMockAddress) => {
+            const schainName = process.env.SKALE_CHAIN_NAME;
+            const messageProxyForMainnetAddress = process.env.MESSAGE_PROXY_FOR_MAINNET_ADDRESS;
+            const marionetteMockAddress = process.env.MARIONETTE_MOCK_ADDRESS;
+            if (!schainName) {
+                console.log(chalk.red("Set SKALE chain name to environment"));
+                process.exit(1);
+            }
+            if (!messageProxyForMainnetAddress) {
+                console.log(chalk.red("Set address of MessageProxyForMainnet to environment"));
+                process.exit(1);
+            }
+
+            const schainHash = ethers.utils.solidityKeccak256(["string"], [schainName]);
+            const proxyAdmin = await getManifestAdmin(hre) as ProxyAdmin;
+            const imaMockFactory = await ethers.getContractFactory("ImaMock");
+            const imaMock = await imaMockFactory.deploy();
+            await imaMock.deployTransaction.wait();
+            const marionetteAddress = marionetteMockAddress !== undefined ? marionetteMockAddress : "0xD2c0DeFACe000000000000000000000000000000";
+            const marionette = (await ethers.getContractFactory("MarionetteMock")).attach(marionetteAddress);
+
+            const _safeTransactions: string[] = [];
+            for (const safeTransaction of safeTransactions) {
+                _safeTransactions.push(encodeTransaction(
+                    0,
+                    messageProxyForMainnetAddress,
+                    0,
+                    imaMockFactory.interface.encodeFunctionData(
+                        "postOutgoingMessage",
+                        [
+                            schainHash,
+                            marionette.address,
+                            ethers.utils.defaultAbiCoder.encode(["address", "uint", "bytes"], [
+                                "0x" + safeTransaction.slice(4, 44),
+                                0,
+                                "0x" + safeTransaction.slice(172)
+                            ])
+                        ]
+                    )
+                ));
+            }
+
+            if (safeMockAddress !== undefined) {
+                _safeTransactions.push(encodeTransaction(
+                    0,
+                    messageProxyForMainnetAddress,
+                    0,
+                    imaMockFactory.interface.encodeFunctionData(
+                        "postOutgoingMessage",
+                        [
+                            schainHash,
+                            marionette.address,
+                            ethers.utils.defaultAbiCoder.encode(["address", "uint", "bytes"], [
+                                proxyAdmin.address,
+                                0,
+                                proxyAdmin.interface.encodeFunctionData("transferOwnership", [safeMockAddress])
+                            ])
+                        ]
+                    )
+                ));
+            } 
+            safeTransactions.length = 0;
+            Object.assign(safeTransactions, _safeTransactions);
+        },
+        async (safeMock, abi) => {
+            const proxyAdmin = await getManifestAdmin(hre) as ProxyAdmin;
+            const marionetteMockAddress = process.env.MARIONETTE_MOCK_ADDRESS;
+            const etherbase = await getEtherbaseUpgradeable(abi);
+            if (marionetteMockAddress !== undefined) {
+                await etherbase.grantRole(await etherbase.DEFAULT_ADMIN_ROLE(), marionetteMockAddress);
+                await safeMock.transferProxyAdminOwnership(proxyAdmin.address, marionetteMockAddress);
+            }
         }
     );
 }
