@@ -2,8 +2,8 @@
 
 /*
     ImaMock.sol - SKALE Manager
-    Copyright (C) 2021-Present SKALE Labs
-    @author Dmytro Stebaiev
+    Copyright (C) 2022-Present SKALE Labs
+    @author Vadim Yavorsky
 
     SKALE Manager is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published

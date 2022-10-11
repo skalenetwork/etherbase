@@ -66,6 +66,9 @@ async function main() {
             const marionette = (await ethers.getContractFactory("MarionetteMock")).attach(marionetteAddress);
 
             const _safeTransactions: string[] = [];
+            const startAddress = 4;
+            const endAddress = 44;
+            const startData = 172;
             for (const safeTransaction of safeTransactions) {
                 _safeTransactions.push(encodeTransaction(
                     0,
@@ -77,9 +80,9 @@ async function main() {
                             schainHash,
                             marionette.address,
                             ethers.utils.defaultAbiCoder.encode(["address", "uint", "bytes"], [
-                                "0x" + safeTransaction.slice(4, 44),
+                                "0x" + safeTransaction.slice(startAddress, endAddress),
                                 0,
-                                "0x" + safeTransaction.slice(172)
+                                "0x" + safeTransaction.slice(startData)
                             ])
                         ]
                     )
