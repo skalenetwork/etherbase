@@ -1,126 +1,69 @@
 import { ethers } from "hardhat";
-import chalk from "chalk";
 import hre from "hardhat";
-import { SkaleABIFile, getContractKeyInAbiFile, encodeTransaction, upgrade } from "@skalenetwork/upgrade-tools";
-import { getManifestAdmin } from "@openzeppelin/hardhat-upgrades/dist/admin";
-import { ProxyAdmin } from "@skalenetwork/upgrade-tools/dist/typechain-types";
+import { Upgrader } from "@skalenetwork/upgrade-tools";
+import { promises as fs, existsSync } from "fs";
+import { SkaleABIFile } from "@skalenetwork/upgrade-tools/dist/src/types/SkaleABIFile";
 
 
-async function getEtherbaseUpgradeable(abi: SkaleABIFile) {
-    return ((await ethers.getContractFactory("EtherbaseUpgradeable")).attach(
-        abi[getContractKeyInAbiFile("Etherbase") + "_address"] as string
-    ));
-}
+const etherbase_address = "0xd2bA3e0000000000000000000000000000000000";
 
-export async function getDeployedVersion(abi: SkaleABIFile) {
-    const etherbase = await getEtherbaseUpgradeable(abi);
-    try {
-        return await etherbase.version();
-    } catch {
-        console.log(chalk.red("Can't read deployed version"));
+class EtherbaseUpgrader extends Upgrader {
+
+    getDeployedVersion = async () => {
+        try {
+            return await (await this.getEtherbase()).version();
+        } catch {
+            // if there is no version() function
+            // it means there is a version 1.0.0
+            return "1.0.0";
+        }
+    };
+
+    setVersion = async (newVersion: string) => {
+        const etherbase = await this.getEtherbase();
+        this.transactions.push({
+            to: etherbase.address,
+            data: etherbase.interface.encodeFunctionData("setVersion", [newVersion])
+        });
+    }
+
+    async getEtherbase() {
+        return await ethers.getContractAt("EtherbaseUpgradeable", this.abi["etherbase_address"] as string);
     }
 }
 
-export async function setNewVersion(safeTransactions: string[], abi: SkaleABIFile, newVersion: string) {
-    const etherbase = await getEtherbaseUpgradeable(abi);
-    safeTransactions.push(encodeTransaction(
-        0,
-        etherbase.address,
-        0,
-        etherbase.interface.encodeFunctionData("setVersion", [newVersion]),
-    ));
-}
-
 async function main() {
-    await upgrade(
-        "etherbase",
-        "1.0.0",
-        getDeployedVersion,
-        setNewVersion,
-        ["Etherbase"],
-        ["EtherbaseUpgradeable"],
-        // async (safeTransactions, abi, contractManager) => {
-        async () => {
-            // deploy new contracts
-        },
-        // async (safeTransactions, abi, contractManager) => {
-        async (safeTransactions, abi, _, safeMockAddress) => {
-            const schainName = process.env.SKALE_CHAIN_NAME;
-            const messageProxyForMainnetAddress = process.env.MESSAGE_PROXY_FOR_MAINNET_ADDRESS;
-            const marionetteMockAddress = process.env.MARIONETTE_MOCK_ADDRESS;
-            if (!schainName) {
-                console.log(chalk.red("Set SKALE chain name to environment"));
-                process.exit(1);
-            }
-            if (!messageProxyForMainnetAddress) {
-                console.log(chalk.red("Set address of MessageProxyForMainnet to environment"));
-                process.exit(1);
-            }
 
-            const schainHash = ethers.utils.solidityKeccak256(["string"], [schainName]);
-            const proxyAdmin = await getManifestAdmin(hre) as ProxyAdmin;
-            const imaMockFactory = await ethers.getContractFactory("ImaMock");
-            const imaMock = await imaMockFactory.deploy();
-            await imaMock.deployTransaction.wait();
-            const marionetteAddress = marionetteMockAddress !== undefined ? marionetteMockAddress : "0xD2c0DeFACe000000000000000000000000000000";
-            const marionette = (await ethers.getContractFactory("MarionetteMock")).attach(marionetteAddress);
+    // prepare the manifest
+    const { chainId } = await hre.ethers.provider.getNetwork();
+    const originManifestFileName = __dirname + "/../.openzeppelin/predeployed.json";
+    const targetManifestFileName = __dirname + `/../.openzeppelin/unknown-${chainId}.json`;
 
-            const _safeTransactions: string[] = [];
-            const startAddress = 4;
-            const endAddress = 44;
-            const startData = 172;
-            for (const safeTransaction of safeTransactions) {
-                _safeTransactions.push(encodeTransaction(
-                    0,
-                    messageProxyForMainnetAddress,
-                    0,
-                    imaMockFactory.interface.encodeFunctionData(
-                        "postOutgoingMessage",
-                        [
-                            schainHash,
-                            marionette.address,
-                            ethers.utils.defaultAbiCoder.encode(["address", "uint", "bytes"], [
-                                "0x" + safeTransaction.slice(startAddress, endAddress),
-                                0,
-                                "0x" + safeTransaction.slice(startData)
-                            ])
-                        ]
-                    )
-                ));
-            }
+    if (!existsSync(targetManifestFileName)) {
+        console.log("Create a manifest file based on predeployed template");
+        await fs.copyFile(originManifestFileName, targetManifestFileName);
+    }
 
-            if (safeMockAddress !== undefined) {
-                _safeTransactions.push(encodeTransaction(
-                    0,
-                    messageProxyForMainnetAddress,
-                    0,
-                    imaMockFactory.interface.encodeFunctionData(
-                        "postOutgoingMessage",
-                        [
-                            schainHash,
-                            marionette.address,
-                            ethers.utils.defaultAbiCoder.encode(["address", "uint", "bytes"], [
-                                proxyAdmin.address,
-                                0,
-                                proxyAdmin.interface.encodeFunctionData("transferOwnership", [safeMockAddress])
-                            ])
-                        ]
-                    )
-                ));
-            } 
-            safeTransactions.length = 0;
-            Object.assign(safeTransactions, _safeTransactions);
-        },
-        async (safeMock, abi) => {
-            const proxyAdmin = await getManifestAdmin(hre) as ProxyAdmin;
-            const marionetteMockAddress = process.env.MARIONETTE_MOCK_ADDRESS;
-            const etherbase = await getEtherbaseUpgradeable(abi);
-            if (marionetteMockAddress !== undefined) {
-                await etherbase.grantRole(await etherbase.DEFAULT_ADMIN_ROLE(), marionetteMockAddress);
-                await safeMock.transferProxyAdminOwnership(proxyAdmin.address, marionetteMockAddress);
-            }
+
+    let abi: SkaleABIFile;
+    if (process.env.ABI) {
+        // a file with marionette address is provided
+        abi = JSON.parse(await fs.readFile(process.env.ABI, "utf-8")) as SkaleABIFile;
+    } else {
+        // use default one
+        abi = {
+            "etherbase_address": etherbase_address
         }
+    }
+
+    const upgrader = new EtherbaseUpgrader(
+        "Etherbase",
+        "1.0.0",
+        abi,
+        ["Etherbase"]
     );
+
+    await upgrader.upgrade();
 }
 
 if (require.main === module) {
