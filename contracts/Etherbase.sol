@@ -29,6 +29,7 @@ import "./interfaces/IEtherbase.sol";
 contract Etherbase is AccessControlEnumerable, IEtherbase {
 
     bytes32 public constant ETHER_MANAGER_ROLE = keccak256("ETHER_MANAGER_ROLE");
+    string public version;
 
     event EtherReceived(
         address sender,

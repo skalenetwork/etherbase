@@ -1,8 +1,9 @@
-'''Module for generaration of Etherbase predeployed smart contract'''
+'''Module for generation of Etherbase predeployed smart contract'''
 
 from os.path import dirname, join
 from typing import Dict
 from web3.auto import w3
+from pkg_resources import get_distribution
 
 from predeployed_generator.openzeppelin.access_control_enumerable_generator \
     import AccessControlEnumerableGenerator
@@ -25,10 +26,13 @@ class EtherbaseGenerator(AccessControlEnumerableGenerator):
     # AccessControlEnumerable
     # 1:  _roleMembers
     # ----------Etherbase----------
+    # 2: version
 
 
     ROLES_SLOT = 0
     ROLE_MEMBERS_SLOT = AccessControlEnumerableGenerator.next_slot(ROLES_SLOT)
+    VERSION_SLOT = AccessControlEnumerableGenerator.next_slot(ROLE_MEMBERS_SLOT)
+
 
     def __init__(self):
         generator = EtherbaseGenerator.from_hardhat_artifact(
@@ -60,4 +64,9 @@ class EtherbaseGenerator(AccessControlEnumerableGenerator):
         roles_slots = cls.RolesSlots(roles=cls.ROLES_SLOT, role_members=cls.ROLE_MEMBERS_SLOT)
         cls._setup_role(storage, roles_slots, cls.DEFAULT_ADMIN_ROLE, [schain_owner])
         cls._setup_role(storage, roles_slots, cls.ETHER_MANAGER_ROLE, ether_managers)
+        cls._write_string(
+            storage,
+            cls.VERSION_SLOT,
+            get_distribution('etherbase_predeployed').version)
+        return storage
         return storage
