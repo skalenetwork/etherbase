@@ -29,6 +29,7 @@ import "./interfaces/IEtherbaseUpgradeable.sol";
 contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseUpgradeable {
 
     bytes32 public constant override ETHER_MANAGER_ROLE = keccak256("ETHER_MANAGER_ROLE");
+    string public version;
 
     event EtherReceived(
         address sender,
@@ -39,6 +40,13 @@ contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseU
         address receiver,
         uint amount
     );
+
+    event VersionUpdated(
+        string oldVersion,
+        string newVersion
+    );
+
+    error Unauthorized(address unauthorizedSender);
 
     modifier onlyEtherManager() {
         require(hasRole(ETHER_MANAGER_ROLE, msg.sender), "ETHER_MANAGER_ROLE is required");
@@ -51,6 +59,13 @@ contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseU
 
     function retrieve(address payable receiver) external override onlyEtherManager {
         partiallyRetrieve(receiver, address(this).balance);
+    }
+
+    function setVersion(string calldata newVersion) external override {
+        if (!hasRole(DEFAULT_ADMIN_ROLE, msg.sender)) 
+            revert Unauthorized(msg.sender);
+        emit VersionUpdated(version, newVersion);
+        version = newVersion;
     }
 
     function initialize(address schainOwner) external initializer override

@@ -5,6 +5,12 @@
 cache/
 coverage.json
 typechain-types/
+data/
+
+# OpenZeppelin
+.openzeppelin/dev-*.json
+.openzeppelin/unknown-*.json
+.openzeppelin/.session
 
 # Logs
 logs
