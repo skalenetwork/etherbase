@@ -12,7 +12,7 @@ class TestUpgradeableEtherbaseGenerator(TestSolidityProject):
     PROXY_ADMIN_ADDRESS = '0xd200000000000000000000000000000000000001'
 
     def get_etherbase_abi(self):
-        return self.get_abi('Etherbase')
+        return self.get_abi('EtherbaseUpgradeable')
 
     def prepare_genesis(self):
         proxy_admin_generator = ProxyAdminGenerator()
