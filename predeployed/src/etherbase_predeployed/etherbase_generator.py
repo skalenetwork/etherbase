@@ -69,4 +69,3 @@ class EtherbaseGenerator(AccessControlEnumerableGenerator):
             cls.VERSION_SLOT,
             get_distribution('etherbase_predeployed').version)
         return storage
-        return storage
