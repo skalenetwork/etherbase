@@ -6,6 +6,7 @@ cache/
 coverage.json
 typechain-types/
 data/
+venv/
 
 # OpenZeppelin
 .openzeppelin/dev-*.json

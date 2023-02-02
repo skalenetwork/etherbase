@@ -49,14 +49,3 @@ class TestEtherbaseGenerator(TestSolidityProject):
         meta = EtherbaseGenerator().get_meta()
         assert meta['name'] == 'Etherbase'
     
-    def test_version(self, tmpdir):
-        self.datadir = tmpdir
-        genesis = self.prepare_genesis()
-
-        with self.run_geth(tmpdir, genesis):
-            assert w3.isConnected()
-
-            etherbase = w3.eth.contract(address=ETHERBASE_ADDRESS, abi=self.get_etherbase_abi())
-
-            assert etherbase.functions.version().call() == get_distribution('etherbase_predeployed').version
-    

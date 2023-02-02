@@ -29,8 +29,6 @@ import "./interfaces/IEtherbase.sol";
 contract Etherbase is AccessControlEnumerable, IEtherbase {
 
     bytes32 public constant ETHER_MANAGER_ROLE = keccak256("ETHER_MANAGER_ROLE");
-    // slither-disable-next-line constable-states
-    string public version;
 
     event EtherReceived(
         address sender,
