@@ -13,3 +13,4 @@ setuptools
 solhint
 typechain
 venv
+nomicfoundation
