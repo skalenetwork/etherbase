@@ -2,6 +2,7 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "hardhat";
 import { Etherbase, EtherbaseUpgradeable } from "../typechain-types";
 import * as chai from "chai"
+import { expect } from "chai";
 import chaiAsPromised from "chai-as-promised";
 
 chai.should();
@@ -39,6 +40,20 @@ function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase | Ethe
             .should.emit(etherbase, "EtherReceived")
             .withArgs(schainOwner.address, amount);
         await ethers.provider.getBalance(etherbase.address).should.eventually.equal(amount);
+    });
+
+    it("should allow only owner to set a version", async function (this: Mocha.Context) {
+        if (this.test?.fullTitle().includes("EtherbaseUpgradeable")) {
+            const etherbaseUpgradeable: EtherbaseUpgradeable = etherbase as EtherbaseUpgradeable;
+
+            await expect(etherbaseUpgradeable.connect(hacker).setVersion("bad")).to.be.revertedWithCustomError(
+                etherbaseUpgradeable,
+                "Unauthorized"
+                );
+
+            await etherbaseUpgradeable.setVersion("good");
+            (await etherbaseUpgradeable.version()).should.be.equal("good");
+        }
     });
 
     describe("when Etherbase has ETH", () => {

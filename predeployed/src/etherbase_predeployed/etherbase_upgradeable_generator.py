@@ -1,5 +1,6 @@
-'''Module for generaration of Etherbase predeployed smart contract'''
+'''Module for generation of Etherbase predeployed smart contract'''
 from typing import Dict
+from pkg_resources import get_distribution
 
 from predeployed_generator.upgradeable_contract_generator import UpgradeableContractGenerator
 
@@ -35,11 +36,12 @@ class EtherbaseUpgradeableGenerator(EtherbaseGenerator):
     # ...   __gap
     # 200:  __gap
     # --------- EtherbaseUpgradeable ---------
-
+    # 201: version
 
     INITIALIZED_SLOT = 0
     ROLES_SLOT = 101
     ROLE_MEMBERS_SLOT = 151
+    VERSION_SLOT = 201
 
     @classmethod
     def generate_storage(cls, **kwargs) -> Dict[str, str]:
@@ -57,6 +59,10 @@ class EtherbaseUpgradeableGenerator(EtherbaseGenerator):
 
         storage = super().generate_storage(**kwargs)
         cls._write_uint256(storage, cls.INITIALIZED_SLOT, 1)
+        cls._write_string(
+            storage,
+            cls.VERSION_SLOT,
+            get_distribution('etherbase_predeployed').version)
         return storage
 
 

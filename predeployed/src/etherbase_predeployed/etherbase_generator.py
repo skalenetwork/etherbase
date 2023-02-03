@@ -1,4 +1,4 @@
-'''Module for generaration of Etherbase predeployed smart contract'''
+'''Module for generation of Etherbase predeployed smart contract'''
 
 from os.path import dirname, join
 from typing import Dict
