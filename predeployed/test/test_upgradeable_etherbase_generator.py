@@ -1,3 +1,4 @@
+from pkg_resources import get_distribution
 from web3.auto import w3
 from predeployed_generator.openzeppelin.proxy_admin_generator import ProxyAdminGenerator
 
@@ -11,7 +12,7 @@ class TestUpgradeableEtherbaseGenerator(TestSolidityProject):
     PROXY_ADMIN_ADDRESS = '0xd200000000000000000000000000000000000001'
 
     def get_etherbase_abi(self):
-        return self.get_abi('Etherbase')
+        return self.get_abi('EtherbaseUpgradeable')
 
     def prepare_genesis(self):
         proxy_admin_generator = ProxyAdminGenerator()
@@ -50,4 +51,15 @@ class TestUpgradeableEtherbaseGenerator(TestSolidityProject):
             assert etherbase.functions.getRoleMemberCount(EtherbaseUpgradeableGenerator.ETHER_MANAGER_ROLE).call() == 1
             assert etherbase.functions.getRoleMember(EtherbaseUpgradeableGenerator.ETHER_MANAGER_ROLE, 0).call() == self.OWNER_ADDRESS            
             assert etherbase.functions.hasRole(EtherbaseUpgradeableGenerator.ETHER_MANAGER_ROLE, self.OWNER_ADDRESS).call()
+    
+    def test_version(self, tmpdir):
+        self.datadir = tmpdir
+        genesis = self.prepare_genesis()
+
+        with self.run_geth(tmpdir, genesis):
+            assert w3.isConnected()
+
+            etherbase = w3.eth.contract(address=ETHERBASE_ADDRESS, abi=self.get_etherbase_abi())
+
+            assert etherbase.functions.version().call() == get_distribution('etherbase_predeployed').version
     

@@ -14,4 +14,3 @@ solhint
 typechain
 venv
 nomicfoundation
-
