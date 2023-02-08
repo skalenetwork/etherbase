@@ -30,6 +30,13 @@ class EtherbaseUpgrader extends Upgrader {
     async getEtherbase() {
         return await ethers.getContractAt("EtherbaseUpgradeable", this.abi["etherbase_address"] as string);
     }
+
+    _getContractKeyInAbiFile(contract: string) {
+        if (contract === "EtherbaseUpgradeable") {
+            return "etherbase";
+        }
+        return contract.replace(/([a-z0-9])(?=[A-Z])/g, '$1_').toLowerCase();
+    }
 }
 
 async function main() {
@@ -57,10 +64,10 @@ async function main() {
     }
 
     const upgrader = new EtherbaseUpgrader(
-        "Etherbase",
+        "etherbase",
         "1.0.0",
         abi,
-        ["Etherbase"]
+        ["EtherbaseUpgradeable"]
     );
 
     await upgrader.upgrade();
