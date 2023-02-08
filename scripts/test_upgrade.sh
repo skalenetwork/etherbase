@@ -26,11 +26,6 @@ git clone --branch $DEPLOYED_TAG https://github.com/$GITHUB_REPOSITORY.git $DEPL
 
 npx ganache -q &
 
-result=$(npx hardhat run scripts/deployMarionetteMock.ts --network localhost)
-MARIONETTE_MOCK_ADDRESS=${result#*"MarionetteMock address: "}
-result=$(npx hardhat run scripts/deployImaMock.ts --network localhost)
-IMA_MOCK_ADDRESS=${result#*"ImaMock address: "}
-
 cd $DEPLOYED_DIR
 nvm install $DEPLOYED_WITH_NODE_VERSION
 nvm use $DEPLOYED_WITH_NODE_VERSION
@@ -48,8 +43,7 @@ cp "data/$ABI_FILENAME" "$GITHUB_WORKSPACE/data"
 cd $GITHUB_WORKSPACE
 rm -r --interactive=never $DEPLOYED_DIR
 
-MARIONETTE_MOCK_ADDRESS=$MARIONETTE_MOCK_ADDRESS \
-MESSAGE_PROXY_FOR_MAINNET_ADDRESS=$IMA_MOCK_ADDRESS \
+ALLOW_NOT_ATOMIC_UPGRADE="OK" \
 SKALE_CHAIN_NAME="Bob" \
 ABI="data/$ABI_FILENAME" \
 npx hardhat run migrations/upgrade.ts --network localhost
