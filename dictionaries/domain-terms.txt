@@ -2,3 +2,6 @@ alloc
 etherbase
 keccak256
 predeployed
+datadir
+extradata
+realpath
