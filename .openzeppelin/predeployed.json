@@ -1,7 +1,7 @@
 {
   "manifestVersion": "3.2",
   "admin": {
-    "address": "0xD2c0DeFACe000000000000000000000000000000"
+    "address": "0xD1000000000000000000000000000000000000D1"
   },
   "proxies": [
     {
