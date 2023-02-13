@@ -50,7 +50,7 @@ function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase | Ethe
                 etherbaseUpgradeable,
                 "Unauthorized"
                 );
-
+                
             await etherbaseUpgradeable.setVersion("good");
             (await etherbaseUpgradeable.version()).should.be.equal("good");
         }

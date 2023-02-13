@@ -1,6 +1,5 @@
 {
   "name": "etherbase",
-  "version": "1.0.0",
   "description": "Predeployed smart contract that stores and manages access to sFUEL received from block rewards and gas fees.",
   "main": "index.js",
   "repository": "git@github.com:skalenetwork/etherbase.git",
@@ -16,7 +15,7 @@
     "tsc": "npx tsc --noEmit",
     "eslint": "npx eslint --cache --ext .js,.jsx,.ts,.tsx .",
     "test": "yarn tsc && npx hardhat test",
-    "fullCheck": "yarn lint && yarn cspell && yarn slither && yarn tsc && yarn eslint",
+    "fullCheck": "yarn lint && yarn cspell && yarn tsc && yarn eslint && yarn slither",
     "hooks": "git config core.hooksPath .githooks || true",
     "no-hooks": "git config core.hooksPath .git/hooks"
   },
@@ -24,7 +23,7 @@
     "@ethersproject/abi": "^5.6.1",
     "@ethersproject/bytes": "^5.5.0",
     "@ethersproject/providers": "^5.7.0",
-    "@nomicfoundation/hardhat-chai-matchers": "^1.0.2",
+    "@nomicfoundation/hardhat-chai-matchers": "^1.0.3",
     "@nomiclabs/hardhat-ethers": "^2.1.1",
     "@nomiclabs/hardhat-etherscan": "^3.1.0",
     "@openzeppelin/hardhat-upgrades": "^1.19.0",
@@ -41,6 +40,7 @@
     "cspell": "^5.19.7",
     "eslint": "^8.22.0",
     "ethers": "^5.6.9",
+    "ganache": "^7.4.4",
     "hardhat": "^2.9.9",
     "kill-port": "^2.0.1",
     "lodash": "^4.17.21",
@@ -52,6 +52,8 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.3",
-    "@openzeppelin/contracts-upgradeable": "^4.7.3"
+    "@openzeppelin/contracts-upgradeable": "^4.7.3",
+    "@skalenetwork/ima-interfaces": "^1.0.0-stable.0",
+    "@skalenetwork/upgrade-tools": "^2.0.0-refactor.17"
   }
 }
