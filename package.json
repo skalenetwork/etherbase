@@ -53,7 +53,7 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.3",
     "@openzeppelin/contracts-upgradeable": "^4.7.3",
-    "@skalenetwork/ima-interfaces": "^1.0.0-stable.0",
+    "@skalenetwork/ima-interfaces": "^2.0.0-develop.0",
     "@skalenetwork/upgrade-tools": "^2.0.0-refactor.17"
   }
 }
