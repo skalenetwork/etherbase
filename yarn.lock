@@ -1171,10 +1171,10 @@
   resolved "https://registry.yarnpkg.com/@skalenetwork/skale-manager-interfaces/-/skale-manager-interfaces-0.1.2.tgz#88e543c8cc298cd0cc9559892d746d2d74786da8"
   integrity sha512-gapSQJahwWMlTB/xp/kMzB6k+9+Skx/N0fvEloiW4CUrkGkSa8+fj16YmUXX45p1hOc45W+JydiJPNgZtx32Dg==
 
-"@skalenetwork/upgrade-tools@^2.0.0-refactor.17":
-  version "2.0.0-refactor.17"
-  resolved "https://registry.yarnpkg.com/@skalenetwork/upgrade-tools/-/upgrade-tools-2.0.0-refactor.17.tgz#097ee62d48b3c3d7c6213b81fc5a89d531b6cb7d"
-  integrity sha512-UEIR7Kqs0P6nda4D65vqTxVqpqJTR425KTLJhbhoAvUABaLMhkOzudOPPQLjLYGdzalgs/VMSXil5GAyIlRzxg==
+"@skalenetwork/upgrade-tools@^2.0.0-167-process-manifest-file-for-predeployed-upgrades.2":
+  version "2.0.0-167-process-manifest-file-for-predeployed-upgrades.2"
+  resolved "https://registry.yarnpkg.com/@skalenetwork/upgrade-tools/-/upgrade-tools-2.0.0-167-process-manifest-file-for-predeployed-upgrades.2.tgz#e5f684eca8d08d20a232057712cbc55f0714b8bd"
+  integrity sha512-WGOPLSDAwYDSjPX5ZbNeCPg2t7G0Y+kX5U+cBLQ9YDggDqIL6OPZZaTv6rMEHkwNXQJRgjKEDktwGOGx7VPOuA==
   dependencies:
     "@openzeppelin/contracts-upgradeable" "^4.4.2"
     axios "^0.27.2"
