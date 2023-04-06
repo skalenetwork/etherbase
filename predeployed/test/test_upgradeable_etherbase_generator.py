@@ -33,7 +33,7 @@ class TestUpgradeableEtherbaseGenerator(TestSolidityProject):
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
-            assert w3.isConnected()
+            assert w3.is_connected()
 
             etherbase = w3.eth.contract(address=ETHERBASE_ADDRESS, abi=self.get_etherbase_abi())
             assert etherbase.functions.getRoleMemberCount(EtherbaseUpgradeableGenerator.DEFAULT_ADMIN_ROLE).call() == 1
@@ -45,7 +45,7 @@ class TestUpgradeableEtherbaseGenerator(TestSolidityProject):
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
-            assert w3.isConnected()
+            assert w3.is_connected()
 
             etherbase = w3.eth.contract(address=ETHERBASE_ADDRESS, abi=self.get_etherbase_abi())
             assert etherbase.functions.getRoleMemberCount(EtherbaseUpgradeableGenerator.ETHER_MANAGER_ROLE).call() == 1
@@ -57,7 +57,7 @@ class TestUpgradeableEtherbaseGenerator(TestSolidityProject):
         genesis = self.prepare_genesis()
 
         with self.run_geth(tmpdir, genesis):
-            assert w3.isConnected()
+            assert w3.is_connected()
 
             etherbase = w3.eth.contract(address=ETHERBASE_ADDRESS, abi=self.get_etherbase_abi())
 
