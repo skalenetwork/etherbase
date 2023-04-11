@@ -1,4 +1,4 @@
-solidityKeccak
+keccak
 mload
 delegatecall
 chainid
