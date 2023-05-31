@@ -5,7 +5,6 @@
   "repository": "git@github.com:skalenetwork/etherbase.git",
   "author": "Dmytro Stebaiev <dmytro@skalelabs.com>",
   "license": "AGPL-3.0",
-  "private": false,
   "scripts": {
     "compile": "npx hardhat clean && npx hardhat compile",
     "prepare": "yarn compile && yarn hooks",
@@ -55,5 +54,6 @@
     "@openzeppelin/contracts-upgradeable": "^4.7.3",
     "@skalenetwork/ima-interfaces": "^1.0.0-stable.0",
     "@skalenetwork/upgrade-tools": "^2.0.0-refactor.17"
-  }
+  },
+  "packageManager": "yarn@1.22.19"
 }
