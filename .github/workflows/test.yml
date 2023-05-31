@@ -48,6 +48,9 @@ jobs:
     - name: Install project
       run: yarn install
 
+    - name: Compile project
+      run: yarn compile
+
     - name: Install slither
       run: pip3 install -r scripts/requirements.txt
 
