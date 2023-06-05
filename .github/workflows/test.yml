@@ -48,9 +48,6 @@ jobs:
     - name: Install project
       run: yarn install
 
-    - name: Compile contracts
-      run: npx hardhat compile
-
     - name: Install slither
       run: pip3 install -r scripts/requirements.txt
 
