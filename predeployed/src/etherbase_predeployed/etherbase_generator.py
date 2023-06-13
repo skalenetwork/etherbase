@@ -2,7 +2,6 @@
 
 from os.path import dirname, join
 from typing import Dict
-from web3.auto import w3
 
 from predeployed_generator.openzeppelin.access_control_enumerable_generator \
     import AccessControlEnumerableGenerator
@@ -15,7 +14,9 @@ class EtherbaseGenerator(AccessControlEnumerableGenerator):
     ARTIFACT_FILENAME = 'Etherbase.json'
     META_FILENAME = 'Etherbase.meta.json'
     DEFAULT_ADMIN_ROLE = (0).to_bytes(32, 'big')
-    ETHER_MANAGER_ROLE = w3.solidityKeccak(['string'], ['ETHER_MANAGER_ROLE'])
+    ETHER_MANAGER_ROLE = AccessControlEnumerableGenerator.calculate_keccak(
+        ['string'], ['ETHER_MANAGER_ROLE']
+    )
 
     # ---------- storage ----------
     # -----Context------
