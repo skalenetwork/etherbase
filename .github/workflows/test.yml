@@ -54,6 +54,10 @@ jobs:
     - name: Show slither version
       run: slither --version
 
+    - name: Compile
+    # TODO: remove when compilation @Install project is always successful
+      run: while [[ ! -d typechain-types ]]; do yarn compile; done
+
     - name: Lint
       run: yarn fullCheck
 
