@@ -23,6 +23,10 @@
 pragma solidity ^0.8.0;
 
 interface IEtherbase {
+    error EmptyReceiver();
+    error InsufficientFunds();
+    error RoleRequired(bytes32 role);
+    error Unauthorized(address unauthorizedSender);
     receive() external payable;
     function retrieve(address payable receiver) external;
     function partiallyRetrieve(address payable receiver, uint256 amount) external;
