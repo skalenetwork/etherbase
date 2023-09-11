@@ -5,6 +5,7 @@
         "yarn-error.log",
         ".gitignore",
         "cspell.json",
+        ".solhint.json",
         "dictionaries/**/*",
         "cache/**/*",
         "artifacts/**/*",
