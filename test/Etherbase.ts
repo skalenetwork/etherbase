@@ -50,7 +50,7 @@ function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase | Ethe
                 etherbaseUpgradeable,
                 "Unauthorized"
                 );
-                
+
             await etherbaseUpgradeable.setVersion("good");
             (await etherbaseUpgradeable.version()).should.be.equal("good");
         }
@@ -79,7 +79,9 @@ function testEtherbase(deploy: (schainOwner: string) => Promise<Etherbase | Ethe
         });
 
         it("should not allow anyone to retrieve ETH", async () => {
-            await etherbase.connect(hacker).retrieve(hacker.address).should.eventually.rejectedWith("ETHER_MANAGER_ROLE is required");
+            await etherbase.connect(hacker).retrieve(hacker.address)
+                .should.be.revertedWithCustomError(etherbase, "RoleRequired")
+                .withArgs(await etherbase.ETHER_MANAGER_ROLE());
         })
 
         it("should allow smart contract to retrieve ETH", async () => {

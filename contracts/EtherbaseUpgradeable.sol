@@ -21,9 +21,12 @@
 
 pragma solidity ^0.8.11;
 
-import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
+import {
+    AccessControlEnumerableUpgradeable,
+    AccessControlUpgradeable
+} from "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 
-import "./interfaces/IEtherbaseUpgradeable.sol";
+import { IEtherbaseUpgradeable } from "./interfaces/IEtherbaseUpgradeable.sol";
 
 
 contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseUpgradeable {
@@ -33,12 +36,12 @@ contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseU
 
     event EtherReceived(
         address sender,
-        uint amount
+        uint256 amount
     );
 
     event EtherSent(
         address receiver,
-        uint amount
+        uint256 amount
     );
 
     event VersionUpdated(
@@ -46,11 +49,18 @@ contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseU
         string newVersion
     );
 
-    error Unauthorized(address unauthorizedSender);
-
     modifier onlyEtherManager() {
-        require(hasRole(ETHER_MANAGER_ROLE, msg.sender), "ETHER_MANAGER_ROLE is required");
+        if(!hasRole(ETHER_MANAGER_ROLE, msg.sender)) {
+            revert RoleRequired(ETHER_MANAGER_ROLE);
+        }
         _;
+    }
+
+    function initialize(address schainOwner) external initializer override
+    {
+        AccessControlUpgradeable.__AccessControl_init();
+        _setupRole(DEFAULT_ADMIN_ROLE, schainOwner);
+        _setupRole(ETHER_MANAGER_ROLE, schainOwner);
     }
 
     receive() external payable override {
@@ -62,22 +72,19 @@ contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseU
     }
 
     function setVersion(string calldata newVersion) external override {
-        if (!hasRole(DEFAULT_ADMIN_ROLE, msg.sender)) 
+        if (!hasRole(DEFAULT_ADMIN_ROLE, msg.sender))
             revert Unauthorized(msg.sender);
         emit VersionUpdated(version, newVersion);
         version = newVersion;
     }
 
-    function initialize(address schainOwner) external initializer override
-    {
-        AccessControlUpgradeable.__AccessControl_init();
-        _setupRole(DEFAULT_ADMIN_ROLE, schainOwner);
-        _setupRole(ETHER_MANAGER_ROLE, schainOwner);
-    }
-
-    function partiallyRetrieve(address payable receiver, uint amount) public override onlyEtherManager {
-        require(receiver != address(0), "Receiver address is not set");
-        require(amount <= address(this).balance, "Insufficient funds");
+    function partiallyRetrieve(address payable receiver, uint256 amount) public override onlyEtherManager {
+        if(receiver == address(0)) {
+            revert EmptyReceiver();
+        }
+        if(amount > address(this).balance) {
+            revert InsufficientFunds();
+        }
 
         emit EtherSent(receiver, amount);
 

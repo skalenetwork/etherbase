@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 /**
- *   IEtherbaseUpgradeable.sol - Etherbase
+ *   EtherController.sol - Etherbase
  *   Copyright (C) 2021-Present SKALE Labs
  *   @author Dmytro Stebaiev
  *
@@ -19,16 +19,8 @@
  *   along with Etherbase.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-// solhint-disable-next-line compiler-version
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.11;
 
-import { IAccessControlUpgradeable } from "@openzeppelin/contracts-upgradeable/access/IAccessControlUpgradeable.sol";
-
-import { IEtherbase } from "./IEtherbase.sol";
-
-interface IEtherbaseUpgradeable is IAccessControlUpgradeable, IEtherbase {
-    function initialize(address schainOwner) external;
-    function setVersion(string calldata newVersion) external;
-    // slither-disable-next-line naming-convention
-    function ETHER_MANAGER_ROLE() external pure returns (bytes32 role); // solhint-disable-line func-name-mixedcase
+interface IEtherController {
+    function provideEth(address payable target) external;
 }

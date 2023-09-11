@@ -21,9 +21,9 @@
 
 pragma solidity ^0.8.11;
 
-import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
+import { AccessControlEnumerable } from "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 
-import "./interfaces/IEtherbase.sol";
+import { IEtherbase } from "./interfaces/IEtherbase.sol";
 
 
 contract Etherbase is AccessControlEnumerable, IEtherbase {
@@ -32,19 +32,21 @@ contract Etherbase is AccessControlEnumerable, IEtherbase {
 
     event EtherReceived(
         address sender,
-        uint amount
+        uint256 amount
     );
 
     event EtherSent(
         address receiver,
-        uint amount
+        uint256 amount
     );
 
     modifier onlyEtherManager() {
-        require(hasRole(ETHER_MANAGER_ROLE, msg.sender), "ETHER_MANAGER_ROLE is required");
+        if(!hasRole(ETHER_MANAGER_ROLE, msg.sender)) {
+            revert RoleRequired(ETHER_MANAGER_ROLE);
+        }
         _;
     }
-    
+
     constructor (address schainOwner) {
         _setupRole(DEFAULT_ADMIN_ROLE, schainOwner);
         _setupRole(ETHER_MANAGER_ROLE, schainOwner);
@@ -58,9 +60,13 @@ contract Etherbase is AccessControlEnumerable, IEtherbase {
         partiallyRetrieve(receiver, address(this).balance);
     }
 
-    function partiallyRetrieve(address payable receiver, uint amount) public override onlyEtherManager {
-        require(receiver != address(0), "Receiver address is not set");
-        require(amount <= address(this).balance, "Insufficient funds");
+    function partiallyRetrieve(address payable receiver, uint256 amount) public override onlyEtherManager {
+        if(receiver == address(0)) {
+            revert EmptyReceiver();
+        }
+        if(amount > address(this).balance) {
+            revert InsufficientFunds();
+        }
 
         emit EtherSent(receiver, amount);
 

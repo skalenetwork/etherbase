@@ -21,12 +21,9 @@
 
 pragma solidity ^0.8.11;
 
-import "../Etherbase.sol";
+import { Etherbase } from "../Etherbase.sol";
+import { IEtherController } from "./interfaces/IEtherController.sol";
 
-
-interface IEtherController {
-    function provideEth(address payable target) external;
-}
 
 contract EtherController is IEtherController {
 
