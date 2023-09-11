@@ -32,12 +32,12 @@ contract Etherbase is AccessControlEnumerable, IEtherbase {
 
     event EtherReceived(
         address sender,
-        uint amount
+        uint256 amount
     );
 
     event EtherSent(
         address receiver,
-        uint amount
+        uint256 amount
     );
 
     modifier onlyEtherManager() {
@@ -58,7 +58,7 @@ contract Etherbase is AccessControlEnumerable, IEtherbase {
         partiallyRetrieve(receiver, address(this).balance);
     }
 
-    function partiallyRetrieve(address payable receiver, uint amount) public override onlyEtherManager {
+    function partiallyRetrieve(address payable receiver, uint256 amount) public override onlyEtherManager {
         require(receiver != address(0), "Receiver address is not set");
         require(amount <= address(this).balance, "Insufficient funds");
 

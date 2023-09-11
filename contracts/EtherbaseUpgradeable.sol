@@ -33,12 +33,12 @@ contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseU
 
     event EtherReceived(
         address sender,
-        uint amount
+        uint256 amount
     );
 
     event EtherSent(
         address receiver,
-        uint amount
+        uint256 amount
     );
 
     event VersionUpdated(
@@ -75,7 +75,7 @@ contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseU
         _setupRole(ETHER_MANAGER_ROLE, schainOwner);
     }
 
-    function partiallyRetrieve(address payable receiver, uint amount) public override onlyEtherManager {
+    function partiallyRetrieve(address payable receiver, uint256 amount) public override onlyEtherManager {
         require(receiver != address(0), "Receiver address is not set");
         require(amount <= address(this).balance, "Insufficient funds");
 
