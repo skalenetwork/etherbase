@@ -53,6 +53,13 @@ contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseU
         _;
     }
 
+    function initialize(address schainOwner) external initializer override
+    {
+        AccessControlUpgradeable.__AccessControl_init();
+        _setupRole(DEFAULT_ADMIN_ROLE, schainOwner);
+        _setupRole(ETHER_MANAGER_ROLE, schainOwner);
+    }
+
     receive() external payable override {
         emit EtherReceived(msg.sender, msg.value);
     }
@@ -66,13 +73,6 @@ contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseU
             revert Unauthorized(msg.sender);
         emit VersionUpdated(version, newVersion);
         version = newVersion;
-    }
-
-    function initialize(address schainOwner) external initializer override
-    {
-        AccessControlUpgradeable.__AccessControl_init();
-        _setupRole(DEFAULT_ADMIN_ROLE, schainOwner);
-        _setupRole(ETHER_MANAGER_ROLE, schainOwner);
     }
 
     function partiallyRetrieve(address payable receiver, uint256 amount) public override onlyEtherManager {
