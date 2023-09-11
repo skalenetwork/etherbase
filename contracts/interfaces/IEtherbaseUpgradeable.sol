@@ -22,9 +22,9 @@
 // solhint-disable-next-line compiler-version
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts-upgradeable/access/IAccessControlUpgradeable.sol";
+import { IAccessControlUpgradeable } from "@openzeppelin/contracts-upgradeable/access/IAccessControlUpgradeable.sol";
 
-import "./IEtherbase.sol";
+import { IEtherbase } from "./IEtherbase.sol";
 
 interface IEtherbaseUpgradeable is IAccessControlUpgradeable, IEtherbase {
     function initialize(address schainOwner) external;

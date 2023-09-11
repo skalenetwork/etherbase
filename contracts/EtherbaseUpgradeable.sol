@@ -21,9 +21,9 @@
 
 pragma solidity ^0.8.11;
 
-import "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
+import { AccessControlEnumerableUpgradeable, AccessControlUpgradeable } from "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 
-import "./interfaces/IEtherbaseUpgradeable.sol";
+import { IEtherbaseUpgradeable } from "./interfaces/IEtherbaseUpgradeable.sol";
 
 
 contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseUpgradeable {
@@ -62,7 +62,7 @@ contract EtherbaseUpgradeable is AccessControlEnumerableUpgradeable, IEtherbaseU
     }
 
     function setVersion(string calldata newVersion) external override {
-        if (!hasRole(DEFAULT_ADMIN_ROLE, msg.sender)) 
+        if (!hasRole(DEFAULT_ADMIN_ROLE, msg.sender))
             revert Unauthorized(msg.sender);
         emit VersionUpdated(version, newVersion);
         version = newVersion;

@@ -21,9 +21,9 @@
 
 pragma solidity ^0.8.11;
 
-import "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
+import { AccessControlEnumerable } from "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
 
-import "./interfaces/IEtherbase.sol";
+import { IEtherbase } from "./interfaces/IEtherbase.sol";
 
 
 contract Etherbase is AccessControlEnumerable, IEtherbase {
@@ -44,7 +44,7 @@ contract Etherbase is AccessControlEnumerable, IEtherbase {
         require(hasRole(ETHER_MANAGER_ROLE, msg.sender), "ETHER_MANAGER_ROLE is required");
         _;
     }
-    
+
     constructor (address schainOwner) {
         _setupRole(DEFAULT_ADMIN_ROLE, schainOwner);
         _setupRole(ETHER_MANAGER_ROLE, schainOwner);

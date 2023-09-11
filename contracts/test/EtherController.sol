@@ -21,7 +21,7 @@
 
 pragma solidity ^0.8.11;
 
-import "../Etherbase.sol";
+import { Etherbase } from "../Etherbase.sol";
 
 
 interface IEtherController {
