@@ -21,7 +21,10 @@
 
 pragma solidity ^0.8.11;
 
-import { AccessControlEnumerableUpgradeable, AccessControlUpgradeable } from "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
+import {
+    AccessControlEnumerableUpgradeable,
+    AccessControlUpgradeable
+} from "@openzeppelin/contracts-upgradeable/access/AccessControlEnumerableUpgradeable.sol";
 
 import { IEtherbaseUpgradeable } from "./interfaces/IEtherbaseUpgradeable.sol";
 
