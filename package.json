@@ -37,7 +37,7 @@
     "chai": "^4.3.8",
     "chai-as-promised": "^7.1.1",
     "cspell": "^7.3.2",
-    "eslint": "^8.48.0",
+    "eslint": "^8.49.0",
     "ethers": "^5.7.2",
     "ganache": "^7.9.1",
     "hardhat": "^2.16.1",
