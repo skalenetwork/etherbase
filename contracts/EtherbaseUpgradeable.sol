@@ -19,7 +19,7 @@
  *   along with Etherbase.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pragma solidity ^0.8.11;
+pragma solidity ^0.8.21;
 
 import {
     AccessControlEnumerableUpgradeable,

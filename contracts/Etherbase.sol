@@ -19,9 +19,9 @@
  *   along with Etherbase.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pragma solidity ^0.8.11;
+pragma solidity ^0.8.21;
 
-import { AccessControlEnumerable } from "@openzeppelin/contracts/access/AccessControlEnumerable.sol";
+import { AccessControlEnumerable } from "@openzeppelin/contracts/access/extensions/AccessControlEnumerable.sol";
 
 import { IEtherbase } from "./interfaces/IEtherbase.sol";
 
@@ -48,8 +48,8 @@ contract Etherbase is AccessControlEnumerable, IEtherbase {
     }
 
     constructor (address schainOwner) {
-        _setupRole(DEFAULT_ADMIN_ROLE, schainOwner);
-        _setupRole(ETHER_MANAGER_ROLE, schainOwner);
+        _grantRole(DEFAULT_ADMIN_ROLE, schainOwner);
+        _grantRole(ETHER_MANAGER_ROLE, schainOwner);
     }
 
     receive() external payable override {
