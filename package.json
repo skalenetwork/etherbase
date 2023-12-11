@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.3",
-    "@openzeppelin/contracts-upgradeable": "^4.9.3",
+    "@openzeppelin/contracts-upgradeable": "^4.9.5",
     "@skalenetwork/ima-interfaces": "^2.0.0",
     "@skalenetwork/upgrade-tools": "^2.0.1"
   },
