@@ -14,7 +14,8 @@
     "clique": {
       "period": 5,
       "epoch": 30000
-    }
+    },
+    "terminalTotalDifficultyPassed": true
   },
   "nonce": "0x33",
   "timestamp": "0x0",
