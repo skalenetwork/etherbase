@@ -53,7 +53,7 @@
     "@openzeppelin/contracts": "^4.9.3",
     "@openzeppelin/contracts-upgradeable": "^4.9.6",
     "@skalenetwork/ima-interfaces": "^2.0.0",
-    "@skalenetwork/upgrade-tools": "^2.0.1"
+    "@skalenetwork/upgrade-tools": "^2.0.2"
   },
   "packageManager": "yarn@1.22.19"
 }
