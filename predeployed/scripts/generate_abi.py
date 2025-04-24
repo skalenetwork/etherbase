@@ -4,7 +4,9 @@ import json
 
 
 def main():
-    print(json.dumps(EtherbaseUpgradeableGenerator().get_abi(), sort_keys=True, indent=4))
+    print(json.dumps({
+        "Etherbase": EtherbaseUpgradeableGenerator().get_abi()
+    }, sort_keys=True, indent=4))
 
 
 if __name__ == '__main__':
