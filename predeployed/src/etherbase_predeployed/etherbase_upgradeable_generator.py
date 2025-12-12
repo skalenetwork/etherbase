@@ -1,6 +1,6 @@
 '''Module for generation of Etherbase predeployed smart contract'''
 from typing import Dict
-from pkg_resources import get_distribution
+from importlib.metadata import version
 
 from predeployed_generator.upgradeable_contract_generator import UpgradeableContractGenerator
 
@@ -62,7 +62,7 @@ class EtherbaseUpgradeableGenerator(EtherbaseGenerator):
         cls._write_string(
             storage,
             cls.VERSION_SLOT,
-            get_distribution('etherbase_predeployed').version)
+            version('etherbase_predeployed'))
         return storage
 
 
