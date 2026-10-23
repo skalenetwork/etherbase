@@ -19,7 +19,7 @@ DEPLOYED_TAG=$(cat $GITHUB_WORKSPACE/DEPLOYED)
 DEPLOYED_VERSION=$(echo $DEPLOYED_TAG | cut -d '-' -f 1)
 DEPLOYED_DIR=$GITHUB_WORKSPACE/deployed-etherbase/
 
-DEPLOYED_WITH_NODE_VERSION="lts/gallium"
+DEPLOYED_WITH_NODE_VERSION="lts/hydrogen"
 CURRENT_NODE_VERSION=$(nvm current)
 
 git clone --branch $DEPLOYED_TAG https://github.com/$GITHUB_REPOSITORY.git $DEPLOYED_DIR
@@ -29,7 +29,8 @@ npx ganache -q &
 cd $DEPLOYED_DIR
 nvm install $DEPLOYED_WITH_NODE_VERSION
 nvm use $DEPLOYED_WITH_NODE_VERSION
-yarn install
+# TODO: remove YARN_ENABLE_IMMUTABLE_INSTALLS=false when previous release starts using Yarn 4
+YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install
 
 VERSION=$DEPLOYED_VERSION \
 MODE=UPGRADEABLE \
