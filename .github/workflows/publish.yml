@@ -43,6 +43,9 @@ jobs:
     - name: Install project
       run: yarn install
 
+    - name: Build project
+      run: yarn compile
+
     - name: Determine version
       run: |
         export BRANCH=${GITHUB_REF##*/}
