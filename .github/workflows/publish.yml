@@ -9,7 +9,7 @@ on:
       - stable
 
 env:
-  NODE_VERSION: 18
+  NODE_VERSION: 24
   PYTHON_VERSION: 3.9
 
 jobs:
@@ -27,7 +27,7 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
         cache: 'yarn'
 
-    - name: Set up Python 3.9
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: ${{ env.PYTHON_VERSION }}
@@ -63,7 +63,6 @@ jobs:
     - name: Publish interfaces npm package
       env:
         BRANCH: ${{ env.BRANCH }}
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: ./interfaces/publish_package.sh
 
     - name: Generate ABI

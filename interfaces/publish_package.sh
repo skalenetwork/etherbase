@@ -36,4 +36,4 @@ cp LICENSE "$INTERFACES_DIR"
 cp README.md "$INTERFACES_DIR"
 cp "$ROOT_DIR/interfaces/package.json" "$INTERFACES_DIR"
 
-yarn publish $INTERFACES_DIR --access public --new-version $VERSION --verbose --no-git-tag-version $TAG --ignore-scripts
+yarn npm publish --access public $TAG --provenance

@@ -16,7 +16,8 @@
         "**/__pycache__/**",
         "**/*.egg-info/**",
         "**/dist/**",
-        "**/artifacts/**"
+        "**/artifacts/**",
+        ".yarn/**"
     ],
     "dictionaries": ["domain-terms", "libraries", "names", "skale-terms", "solidity"],
     "dictionaryDefinitions": [
