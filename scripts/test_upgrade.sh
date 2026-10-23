@@ -29,7 +29,8 @@ npx ganache -q &
 cd $DEPLOYED_DIR
 nvm install $DEPLOYED_WITH_NODE_VERSION
 nvm use $DEPLOYED_WITH_NODE_VERSION
-yarn install
+# TODO: remove YARN_ENABLE_IMMUTABLE_INSTALLS=false when previous release starts using Yarn 4
+YARN_ENABLE_IMMUTABLE_INSTALLS=false yarn install
 
 VERSION=$DEPLOYED_VERSION \
 MODE=UPGRADEABLE \
