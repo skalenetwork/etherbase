@@ -36,4 +36,14 @@ cp LICENSE "$INTERFACES_DIR"
 cp README.md "$INTERFACES_DIR"
 cp "$ROOT_DIR/interfaces/package.json" "$INTERFACES_DIR"
 
+cd "$INTERFACES_DIR"
+
+# set version
+package="$(jq --arg v "$VERSION" '.version = $v' package.json)"
+echo -E "${package}" > package.json
+
+touch yarn.lock
+yarn config set enableImmutableInstalls false
+yarn
+
 yarn npm publish --access public $TAG --provenance
